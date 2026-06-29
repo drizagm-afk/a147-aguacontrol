@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+
+<a th:href="@{/home}">Panel Clients</a>
+
+<a th:href="@{/business/clients}">Clientes</a>
+
+<div layout:fragment="content">
+    <h1>CONTENT</h1>
+</div>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Cerrar Sesión</button>
+</form>
+
+<script type="module" th:src="@{/js/business/main.js}"></script>
+<th:block layout:fragment="scripts"></th:block>
+
+</body>
+</html>

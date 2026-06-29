@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{business/base}">
+<head>
+    <meta charset="UTF-8">
+    <title>A147 Business</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <input id="search" type="text" placeholder="Search" autofocus/>
+    <a th:href="@{/business/clients/form/create}">Nuevo Cliente</a>
+    <a>Enlazar Cuenta</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Direccion</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="content">
+        </tbody>
+    </table>
+</div>
+
+<th:block id="NEVERMOREE" layout:fragment="scripts">
+    <script type="module" th:src="@{/js/business/clients/view.js}"></script>
+</th:block>
+
+</body>
+</html>

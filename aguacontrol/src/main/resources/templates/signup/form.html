@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cuenta</title>
+</head>
+<body>
+
+<form id="form" th:action="@{/signup/submit}" th:object="${form}" method="post">
+
+    <input type="text" th:field="*{nombre}" placeholder="Nombre">
+    <div th:errors="*{nombre}"></div>
+
+    <input type="email" th:field="*{email}" placeholder="Email">
+    <div th:errors="*{email}"></div>
+
+    <input type="password" th:field="*{password}" placeholder="Contraseña">
+    <div th:errors="*{password}"></div>
+
+    <label>
+        <input type="checkbox" th:field="*{empresa}" id="empresaToggle">
+        ¿Eres una empresa?
+    </label>
+
+    <section id="form-empresa">
+        <input type="text" th:field="*{empresaForm.ruc}" placeholder="RUC">
+        <div th:errors="*{empresaForm.ruc}"></div>
+    </section>
+
+    <button type="submit">Registrarse</button>
+</form>
+
+<a th:href="@{/login}">Iniciar Sesión</a>
+
+</body>
+</html>
