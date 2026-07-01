@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{auth/base}">
+<head>
+    <meta charset="UTF-8">
+    <title>A147</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <form id="form"
+          th:action="@{/signup/register}" th:object="${form}"
+          th:with="anyErrors = ${#fields.hasAnyErrors()}"
+          method="post">
+        <h2 id="form-title">Crear Cuenta</h2>
+        <p id="form-subtitle">Ingrese sus datos personales para registrarse en el sistema</p>
+
+        <div th:if="${anyErrors}" class="form-errors" th:errors="*{nombre}"></div>
+        <div id="form-content">
+            <!--NOMBRE-->
+            <div th:with="hasErrors = ${#fields.hasErrors('nombre')}">
+                <div class="form-field" th:classappend="${hasErrors} ? 'error'">
+                    <i class="bi bi-person"></i>
+                    <input type="text" th:field="*{nombre}" placeholder="Nombre">
+                </div>
+                <div th:if="${hasErrors}" class="field-errors" th:errors="*{nombre}">
+                    <i class="bi bi-exclamation-circle"></i>
+                </div>
+            </div>
+
+            <!--EMAIL-->
+            <div th:with="hasErrors = ${#fields.hasErrors('email')}">
+                <div class="form-field" th:classappend="${hasErrors} ? 'error'">
+                    <i class="bi bi-envelope"></i>
+                    <input type="email" th:field="*{email}" placeholder="Email">
+                </div>
+                <div th:if="${hasErrors}" class="field-errors" th:errors="*{email}">
+                    <i class="bi bi-exclamation-circle"></i>
+                </div>
+            </div>
+
+            <!--PASSWORD-->
+            <div th:with="hasErrors = ${#fields.hasErrors('password')}">
+                <div class="form-field" th:classappend="${hasErrors} ? 'error'">
+                    <i class="bi bi-lock"></i>
+                    <input type="password" th:field="*{password}" placeholder="Contraseña">
+                </div>
+                <div th:if="${hasErrors}" class="field-errors" th:errors="*{password}">
+                    <i class="bi bi-exclamation-circle"></i>
+                </div>
+            </div>
+
+            <!--IS EMPRESA-->
+            <div class="form-field chk">
+                <input id="chk-empresa" type="checkbox" th:field="*{empresa}">
+                <label>¿Eres una empresa?</label>
+            </div>
+
+            <!--EMPRESA RUC-->
+            <section id="form-empresa" class="hide">
+                <div th:with="hasErrors = ${#fields.hasErrors('empresaDTO.ruc')}">
+                    <div class="form-field" th:classappend="${hasErrors} ? 'error'">
+                        <i class="bi bi-building"></i>
+                        <input type="text" th:field="*{empresaDTO.ruc}" placeholder="RUC">
+                    </div>
+                    <div th:if="${hasErrors}" class="field-errors" th:errors="*{empresaDTO.ruc}">
+                        <i class="bi bi-exclamation-circle"></i>
+                    </div>
+                </div>
+            </section>
+
+            <button type="submit">
+                Registrarse &nbsp;<i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+
+        <p class="footer">¿Ya tienes una cuenta? <a th:href="@{/login}">Iniciar Sesión</a></p>
+    </form>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script>
+        const $chkEmpresa = document.getElementById("chk-empresa");
+        const $formEmpresa = document.getElementById("form-empresa");
+
+        function showEmpresa() {
+            if ($chkEmpresa.checked) {
+                $formEmpresa.classList.remove("hide");
+            } else {
+                $formEmpresa.classList.add("hide");
+            }
+        }
+
+        $chkEmpresa.addEventListener("change", showEmpresa);
+
+        document.addEventListener("DOMContentLoaded", showEmpresa);
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -27,7 +27,7 @@ public class SignUpController {
     @GetMapping
     public String form(Model model) {
         model.addAttribute("form", new SignUpFormDTO());
-        return "signup/form";
+        return "auth/signup/form";
     }
 
     @PostMapping("/register")
@@ -51,7 +51,7 @@ public class SignUpController {
 
         if (errors.hasErrors()) {
             form.setPassword(null);
-            return "signup/form";
+            return "auth/signup/form";
         }
         serv.signUpUser(form);
 

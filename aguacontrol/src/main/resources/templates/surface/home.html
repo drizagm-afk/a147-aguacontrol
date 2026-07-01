@@ -1,19 +1,4 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <title>A147 Clients</title>
-</head>
-<body>
-
-<div sec:authorize="hasAuthority('PERM_DASHBOARD_WORKER')">
-    <a th:href="@{/business/home}">Panel Business</a>
-</div>
-
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Cerrar Sesión</button>
-</form>
-
-</body>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{surface/base}">
 </html>

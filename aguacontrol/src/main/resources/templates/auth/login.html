@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{auth/base}">
+<head>
+    <meta charset="UTF-8">
+    <title>A147</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <form id="form" th:action="@{/login}" method="post">
+        <h2 id="form-title">Panel de Administración</h2>
+        <p id="form-subtitle">Ingrese sus credenciales para continuar</p>
+
+        <p th:if="${param.error}">Usuario o contraseña incorrectos</p>
+        <div id="form-content">
+            <!--USERNAME-->
+            <div class="form-field">
+                <i class="bi bi-envelope"></i>
+                <input type="text" name="identifier" placeholder="Username o Email" required>
+            </div>
+
+            <!--PASSWORD-->
+            <div class="form-field">
+                <i class="bi bi-lock"></i>
+                <input id="password" type="password" name="password" placeholder="Contraseña" required>
+                <i id="eye-icon" class="bi bi-eye-fill" style="cursor: pointer;"></i>
+            </div>
+
+            <button type="submit">Iniciar Sesión</button>
+        </div>
+
+        <p class="footer">¿Aun no tiene cuenta? <a th:href="@{/signup}">Registrese Aquí</a></p>
+    </form>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script>
+        const $showPassword = document.getElementById("eye-icon");
+        const $password = document.getElementById("password");
+
+        $showPassword.addEventListener("click", () => {
+            const show = $password.type === "password";
+            $password.type = show ? "text" : "password";
+            $showPassword.className = show ? "bi bi-eye-slash-fill" : "bi bi-eye-fill";
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>A147 Clients</title>
+
+    <!--LIBRARIES-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+
+    <!--MY STYLES-->
+    <link rel="stylesheet" th:href="@{/css/surface.css}">
+</head>
+<body>
+
+<div sec:authorize="hasAuthority('PERM_DASHBOARD_WORKER')">
+    <a th:href="@{/business/home}">Panel Business</a>
+</div>
+
+<div layout:fragment="content">
+    <h1>CONTENT</h1>
+</div>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Cerrar Sesión</button>
+</form>
+
+<!--LIBRARIES-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+
+<!--MY SCRIPTS-->
+<th:block layout:fragment="scripts"></th:block>
+
+</body>
+</html>

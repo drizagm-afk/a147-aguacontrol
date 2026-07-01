@@ -1,10 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
-
+    box-sizing: border-box;
     text-decoration: none;
 }
 
+/*FONTS*/
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/*COLORS*/
 body {
     /*PALETTE*/
     --palette-0: #FFFFFF;
@@ -21,8 +29,8 @@ body {
     --palette-950: #0E2A5D;
 
     /*BUTTONS*/
-    --btn-default: #1E97FF;
-    --btn-hovered: #48B9FF;
+    --btn-default: #0062FF;
+    --btn-hovered: #084BC5;
     --btn-pressed: #0E2A5D;
     --btn-disabled: #6B7280;
 
@@ -50,3 +58,37 @@ body {
     --table-border: #ABB2C0;
 }
 
+/*BUTTONS*/
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-bottom: 16px;
+
+    background-color: var(--btn-default);
+
+    &:hover {
+        background-color: var(--btn-hovered);
+    }
+}
+
+button.btn-none {
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+/*SPECIAL*/
+.hide {
+    display: none !important;
+}
