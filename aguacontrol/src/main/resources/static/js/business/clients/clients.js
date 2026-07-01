@@ -20,7 +20,6 @@ function browse(keyword = "") {
                     <td>
                         <a href="/business/clients/form/view/${i.id}">Ver</a>
                         <a href="/business/clients/form/update/${i.id}">Editar</a>
-                        <a class="delete-btn" data-id="${i.id}">Eliminar</a>
                     </td>
                 </tr>
             `);

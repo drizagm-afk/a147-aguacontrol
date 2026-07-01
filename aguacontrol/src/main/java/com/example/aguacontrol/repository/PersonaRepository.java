@@ -1,16 +1,11 @@
 package com.example.aguacontrol.repository;
 
-import com.example.aguacontrol.model.Direccion;
 import com.example.aguacontrol.model.Persona;
-import com.example.aguacontrol.model.Telefono;
-import com.example.aguacontrol.model.Usuario;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface PersonaRepository extends CrudRepository<Persona, Long> {
