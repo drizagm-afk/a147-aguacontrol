@@ -1,15 +1,15 @@
 package com.example.aguacontrol.service;
 
-import com.example.aguacontrol.dto.UsuarioRegistryDTO;
-import com.example.aguacontrol.error.ValidationErrors;
+import com.example.aguacontrol.dto.SignUpFormDTO;
+import com.example.aguacontrol.utils.ValidationErrors;
 import com.example.aguacontrol.generic.CrudService;
 import com.example.aguacontrol.model.Usuario;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface UsuarioService extends CrudService<Usuario, Long> {
-    //USUARIO REGISTRY DTO
-    ValidationErrors validateRegistry(UsuarioRegistryDTO dto);
+    //USUARIO SIGNUP
+    ValidationErrors validateUser(SignUpFormDTO dto);
 
     @Transactional
-    Usuario registry(UsuarioRegistryDTO dto);
+    Usuario signUpUser(SignUpFormDTO dto);
 }

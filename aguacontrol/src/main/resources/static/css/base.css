@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+
+    text-decoration: none;
+}
+
+body {
+    /*PALETTE*/
+    --palette-0: #FFFFFF;
+    --palette-50: #EDF8FF;
+    --palette-100: #D6EEFF;
+    --palette-200: #B5E3FF;
+    --palette-300: #83D3FF;
+    --palette-400: #48B9FF;
+    --palette-500: #1E97FF;
+    --palette-600: #0676FF;
+    --palette-700: #0062FF;
+    --palette-800: #084BC5;
+    --palette-900: #0D439B;
+    --palette-950: #0E2A5D;
+
+    /*BUTTONS*/
+    --btn-default: #1E97FF;
+    --btn-hovered: #48B9FF;
+    --btn-pressed: #0E2A5D;
+    --btn-disabled: #6B7280;
+
+    /*TEXT*/
+    --white: #FFFFFF;
+    --light: #E9E9E9;
+    --mid-light: #ABB2C0;
+    --gray: #444748;
+    --dark: #424656;
+    --black: #0E2A5D;
+
+    /*TOOLTIP*/
+    --alert: #F15050;
+    --alert-alpha: #F8E8E8;
+    --warning: #FA752F;
+    --warning-alpha: #FFEDD5;
+    --success: #2BB65E;
+    --success-alpha: #DCFCE7;
+    --info: #0D439B;
+    --info-alpha: #DBE1FF;
+
+    /*TABLE*/
+    --row-odd: #FFFFFF;
+    --row-even: #F2F4F7;
+    --table-border: #ABB2C0;
+}
+

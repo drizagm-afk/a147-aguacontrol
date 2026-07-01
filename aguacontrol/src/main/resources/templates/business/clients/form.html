@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{business/base}">
+<head>
+    <meta charset="UTF-8">
+    <title>A147 Business</title>
+
+    <meta th:name="mode" th:content="${mode}">
+</head>
+<body>
+
+<div layout:fragment="content">
+    <a th:href="@{/business/clients}">BACK</a>
+    <div>
+        <form id="form"
+              th:action="${mode=='CREATE'} ? @{/business/clients/create} : @{/business/clients/update}"
+              th:object="${form}" method="post">
+            <input type="hidden" th:field="*{id}">
+
+            <label>Nombre</label>
+            <input type="text" th:field="*{nombre}" placeholder="Nombre" th:readonly="${isReadOnly}">
+            <div th:errors="*{nombre}"></div>
+
+            <div>
+                <label>Telefono</label>
+                <input id="telefonoView" type="text" readonly>
+                <button type="button" id="telefonoOpen">+</button>
+                <div id="telefonoFields"></div>
+                <div id="telefonoInit">
+                    <div th:each="t, iter : *{telefonos}"
+                         th:with="fld=|telefonos[${iter.index}].numero|"
+                         th:data-value="${t.numero}"
+                         th:data-error="${#fields.hasErrors(fld) ? #strings.listJoin(#fields.errors(fld), ' | ') : ''}"></div>
+                </div>
+            </div>
+
+            <div>
+                <label>Direccion</label>
+                <input id="direccionView" type="text" readonly>
+                <button type="button" id="direccionOpen">+</button>
+                <div id="direccionFields"></div>
+                <div id="direccionInit">
+                    <div th:each="d, iter : *{direcciones}"
+                         th:with="fld=|direcciones[${iter.index}].referencia|"
+                         th:data-value="${d.referencia}"
+                         th:data-error="${#fields.hasErrors(fld) ? #strings.listJoin(#fields.errors(fld), ' | ') : ''}"></div>
+                </div>
+            </div>
+
+            <input type="hidden" th:field="*{empresa}">
+
+            <section th:if="*{empresa}">
+                <label>RUC</label>
+                <input type="text" th:field="*{empresaDTO.ruc}" placeholder="RUC" th:readonly="${isReadOnly}">
+                <div th:errors="*{empresaDTO.ruc}"></div>
+            </section>
+
+            <button th:unless="${isReadOnly}" type="submit"
+                    th:text="${mode=='CREATE' ? 'Registrar' : 'Actualizar'}">SUBMIT</button>
+        </form>
+    </div>
+</div>
+
+<div layout:fragment="modal">
+    <div>
+        <button id="telefonoClose">X</button>
+        <h4>Telefonos de Entrega</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Número</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="telefonos">
+            <tr></tr>
+            </tbody>
+        </table>
+        <button th:unless="${isReadOnly}" id="telefonoAdd">Agregar Telefono</button>
+    </div>
+    <div>
+        <button id="direccionClose">X</button>
+        <h4>Direcciones de Entrega</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Referencia</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="direcciones"></tbody>
+        </table>
+        <button th:unless="${isReadOnly}" id="direccionAdd">Agregar Direccion</button>
+    </div>
+</div>
+
+<th:block id="NEVERMOREE" layout:fragment="scripts">
+    <script type="module" th:src="@{/js/business/clients/form.js}"></script>
+</th:block>
+
+</body>
+</html>

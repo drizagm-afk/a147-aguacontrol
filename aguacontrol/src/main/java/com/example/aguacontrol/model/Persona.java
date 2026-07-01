@@ -28,6 +28,7 @@ public class Persona {
             joinColumns = @JoinColumn(name = "id_persona"),
             inverseJoinColumns = @JoinColumn(name = "id_telefono")
     )
+    @OrderBy("id ASC")
     private List<Telefono> telefonos;
 
     @ManyToMany
@@ -36,6 +37,7 @@ public class Persona {
             joinColumns = @JoinColumn(name = "id_persona"),
             inverseJoinColumns = @JoinColumn(name = "id_direccion")
     )
+    @OrderBy("id ASC")
     private List<Direccion> direcciones;
 
     @OneToOne(cascade = CascadeType.PERSIST)

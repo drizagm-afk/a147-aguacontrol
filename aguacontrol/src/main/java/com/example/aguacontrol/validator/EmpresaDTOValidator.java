@@ -1,43 +1,50 @@
-package com.example.aguacontrol.controller.validator;
+package com.example.aguacontrol.validator;
 
-import com.example.aguacontrol.dto.ClienteRegistryDTO;
+import com.example.aguacontrol.dto.EmpresaDTO;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.Map;
+
 @Component
-public class EmpresaRegistryValidator implements Validator {
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return ClienteRegistryDTO.class.isAssignableFrom(clazz);
+public class EmpresaDTOValidator implements Validator {
+    public record Data(boolean isEmpresa, EmpresaDTO dto) {
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
-        var form = (ClienteRegistryDTO) target;
-        if (!form.isEmpresa())
+    public boolean supports(Class<?> clazz) {
+        return Data.class.equals(clazz);
+    }
+
+    @Override
+    public void validate(@NonNull Object target, @NonNull Errors errors) {
+        var data = (Data) target;
+        if (!data.isEmpresa)
             return;
 
-        var empresaForm = form.getEmpresaForm();
-        if (empresaForm == null) {
+        var dto = data.dto;
+        if (dto == null) {
             errors.rejectValue(
-                    "empresaForm",
-                    "empresaForm.required",
+                    "empresaDTO",
+                    "empresaDTO.required",
                     "Los Datos de Empresa son obligatorios"
             );
             return;
         }
 
-        var ruc = empresaForm.getRuc();
+        //RUC
+        var ruc = dto.getRuc();
         if (ruc == null || ruc.isBlank()) {
             errors.rejectValue(
-                    "empresaForm.ruc",
+                    "empresaDTO.ruc",
                     "ruc.required",
                     "El RUC es obligatorio"
             );
         } else if (!ruc.matches("\\d{11}")) {
             errors.rejectValue(
-                    "empresaForm.ruc",
+                    "empresaDTO.ruc",
                     "ruc.invalid",
                     "El RUC debe tener 11 dígitos"
             );

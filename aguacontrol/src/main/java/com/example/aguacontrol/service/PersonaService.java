@@ -1,26 +1,24 @@
 package com.example.aguacontrol.service;
 
-import com.example.aguacontrol.dto.ClienteViewDTO;
-import com.example.aguacontrol.dto.ClienteRegistryDTO;
-import com.example.aguacontrol.error.ValidationErrors;
+import com.example.aguacontrol.dto.ClienteDTO;
+import com.example.aguacontrol.utils.ValidationErrors;
 import com.example.aguacontrol.generic.CrudService;
 import com.example.aguacontrol.model.Persona;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PersonaService extends CrudService<Persona, Long> {
-    Optional<ClienteViewDTO> readCliente(Long id);
+    @Transactional(readOnly = true)
+    Optional<ClienteDTO> readCliente(Long id);
 
-    Iterable<ClienteViewDTO> readAllClientes();
+    @Transactional(readOnly = true)
+    List<ClienteDTO> browseClientes(String keyword);
 
-    Iterable<ClienteViewDTO> searchClientes(String keyword);
-
-    //CLIENTE REGISTRY DTO
-    ValidationErrors validateRegistry(ClienteRegistryDTO dto);
+    //CLIENTE REGISTRY
+    ValidationErrors validateCliente(ClienteDTO dto);
 
     @Transactional
-    Persona registry(ClienteRegistryDTO dto);
-
-    Optional<ClienteRegistryDTO> readAsRegistry(Long id);
+    Persona saveCliente(ClienteDTO dto);
 }

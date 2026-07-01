@@ -1,9 +1,11 @@
 package com.example.aguacontrol.controller;
 
-import com.example.aguacontrol.controller.validator.EmpresaRegistryValidator;
-import com.example.aguacontrol.dto.UsuarioRegistryDTO;
+import com.example.aguacontrol.validator.EmpresaDTOValidator;
+import com.example.aguacontrol.dto.SignUpFormDTO;
 import com.example.aguacontrol.service.EmpresaService;
 import com.example.aguacontrol.service.UsuarioService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,25 +21,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class SignUpController {
     private final UsuarioService serv;
-    private final EmpresaService empresaServ;
 
-    private final EmpresaRegistryValidator empresaValidator;
+    private final EmpresaDTOValidator empresaValidator;
 
     @GetMapping
     public String form(Model model) {
-        model.addAttribute("form", new UsuarioRegistryDTO());
+        model.addAttribute("form", new SignUpFormDTO());
         return "signup/form";
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/register")
     public String signUp(
-            @Valid @ModelAttribute("form") UsuarioRegistryDTO form,
-            BindingResult errors
+            @Valid @ModelAttribute("form") SignUpFormDTO form,
+            BindingResult errors,
+            HttpServletRequest http
     ) {
-        empresaValidator.validate(form, errors);
+        empresaValidator.validate(new EmpresaDTOValidator.Data(
+                form.isEmpresa(), form.getEmpresaDTO()
+        ), errors);
 
         //VALIDATE
-        for (var error : serv.validateRegistry(form).getErrors()) {
+        for (var error : serv.validateUser(form).getErrors()) {
             errors.rejectValue(
                     error.field(),
                     "business.error",
@@ -49,8 +53,15 @@ public class SignUpController {
             form.setPassword(null);
             return "signup/form";
         }
-        serv.registry(form);
+        serv.signUpUser(form);
 
-        return "redirect:/login?registered";
+        //AUTO SIGN IN
+        try {
+            http.login(form.getNombre(), form.getPassword());
+        } catch (ServletException e) {
+            return "redirect:/login";
+        }
+
+        return "redirect:/home";
     }
 }

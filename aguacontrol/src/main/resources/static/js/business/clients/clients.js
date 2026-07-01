@@ -1,12 +1,13 @@
 import * as Ctrl from '/js/business/main.js';
 
-const $input = document.getElementById("search");
+const $input = document.getElementById("browse");
 const $content = document.getElementById("content");
-$input.addEventListener('input', e => search(e.target.value));
 
-function search(keyword = "") {
+$input.addEventListener('input', e => browse(e.target.value));
+
+function browse(keyword = "") {
     const params = new URLSearchParams({keyword: keyword}).toString();
-    fetch(`/business/clients/search?${params}`)
+    fetch(`/business/clients/browse?${params}`)
         .then(r => r.json())
         .then(r => {
             $content.innerHTML = "";
@@ -14,9 +15,10 @@ function search(keyword = "") {
                 <tr>
                     <td>${i.codigo}</td>
                     <td>${i.nombre}</td>
-                    <td>${i.telefono?.numero ?? "NONE"}</td>
-                    <td>${i.direccion?.referencia ?? 'NONE'}</td>
+                    <td>${i.telefonos[i.telefonos.length - 1]?.numero ?? ""}</td>
+                    <td>${i.direcciones[i.direcciones.length - 1]?.referencia ?? ""}</td>
                     <td>
+                        <a href="/business/clients/form/view/${i.id}">Ver</a>
                         <a href="/business/clients/form/update/${i.id}">Editar</a>
                         <a class="delete-btn" data-id="${i.id}">Eliminar</a>
                     </td>
@@ -35,9 +37,9 @@ $content.addEventListener('click', e => {
 function del(id) {
     if (confirm("¿Desea eliminar este cliente?")) {
         Ctrl.fetchDelete("/business/clients/delete/" + id)
-            .then(() => search(""))
+            .then(() => browse(""))
             .catch(e => console.error("Error al eliminar cliente:", e));
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => search());
+document.addEventListener("DOMContentLoaded", () => browse());

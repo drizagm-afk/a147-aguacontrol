@@ -7,21 +7,45 @@
 
     <meta th:name="_csrf" th:content="${_csrf.token}"/>
     <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <!--LIBRARIES-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+
+    <!--MY STYLES-->
+    <link rel="stylesheet" th:href="">
 </head>
-<body>
+<body th:with="isReadOnly=${mode=='VIEW'}">
 
 <a th:href="@{/home}">Panel Clients</a>
 
 <a th:href="@{/business/clients}">Clientes</a>
+<a th:if="false" th:href="@{/business/orders}">Pedidos</a>
 
 <div layout:fragment="content">
     <h1>CONTENT</h1>
+</div>
+
+<div layout:fragment="modal">
+    <h1>MODAL CONTENT</h1>
 </div>
 
 <form th:action="@{/logout}" method="post">
     <button type="submit">Cerrar Sesión</button>
 </form>
 
+<div id="server-toasts">
+    <div th:each="toast : ${toasts}"
+         th:data-type="${toast.type}"
+         th:data-title="${toast.title}"
+         th:data-message="${toast.message}">
+    </div>
+</div>
+
+<!--LIBRARIES-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+
+<!--MY SCRIPTS >:D-->
+<script type="module" th:src="@{/js/utils/toaster.js}"></script>
 <script type="module" th:src="@{/js/business/main.js}"></script>
 <th:block layout:fragment="scripts"></th:block>
 

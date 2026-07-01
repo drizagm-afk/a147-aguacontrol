@@ -10,9 +10,10 @@ public interface EmpresaRepository extends CrudRepository<Empresa, Long> {
     @Query("SELECT e FROM Empresa e WHERE e.ruc = :ruc")
     Optional<Empresa> findByRuc(String ruc);
 
-    //VALIDATE
-    @Query("SELECT COUNT(e) > 0 FROM Empresa e " +
-            "WHERE e.ruc = :ruc " +
-            "AND e.id != :excludeId")
+    //EXISTS
+    @Query("""
+            SELECT COUNT(e) > 0 FROM Empresa e
+            WHERE e.ruc = :ruc AND e.id != :excludeId
+            """)
     boolean existsWithRuc(String ruc, Long excludeId);
 }
