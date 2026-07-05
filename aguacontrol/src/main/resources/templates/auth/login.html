@@ -13,7 +13,12 @@
         <h2 id="form-title">Panel de Administración</h2>
         <p id="form-subtitle">Ingrese sus credenciales para continuar</p>
 
-        <p th:if="${param.error}">Usuario o contraseña incorrectos</p>
+        <div th:if="${param.error}" class="alert">
+            <i class="bi bi-exclamation-circle-fill"></i>
+            Usuario o contraseña incorrectos
+        </div>
+
+
         <div id="form-content">
             <!--USERNAME-->
             <div class="form-field">
@@ -25,7 +30,7 @@
             <div class="form-field">
                 <i class="bi bi-lock"></i>
                 <input id="password" type="password" name="password" placeholder="Contraseña" required>
-                <i id="eye-icon" class="bi bi-eye-fill" style="cursor: pointer;"></i>
+                <i id="eye-icon" class="bi bi-eye" style="cursor: pointer;"></i>
             </div>
 
             <button type="submit">Iniciar Sesión</button>
@@ -43,7 +48,7 @@
         $showPassword.addEventListener("click", () => {
             const show = $password.type === "password";
             $password.type = show ? "text" : "password";
-            $showPassword.className = show ? "bi bi-eye-slash-fill" : "bi bi-eye-fill";
+            $showPassword.className = show ? "bi bi-eye-slash" : "bi bi-eye";
         });
     </script>
 </th:block>

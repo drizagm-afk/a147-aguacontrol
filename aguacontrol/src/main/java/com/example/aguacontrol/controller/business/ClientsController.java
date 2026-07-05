@@ -1,8 +1,8 @@
 package com.example.aguacontrol.controller.business;
 
-import com.example.aguacontrol.dto.ClienteDTO;
+import com.example.aguacontrol.dto.business.clients.ClienteDTO;
 import com.example.aguacontrol.utils.FormMode;
-import com.example.aguacontrol.utils.Toaster;
+import com.example.aguacontrol.utils.toast.Toaster;
 import com.example.aguacontrol.validator.EmpresaDTOValidator;
 import com.example.aguacontrol.dto.ApiResponse;
 import com.example.aguacontrol.service.PersonaService;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -27,18 +26,19 @@ public class ClientsController {
 
     private final EmpresaDTOValidator empresaValidator;
 
+    //VIEW
     @GetMapping
     public String clients() {
         return "business/clients/clients";
     }
 
     @GetMapping("/browse")
-    public ResponseEntity<ApiResponse> browse(@RequestParam("keyword") String keyword) {
-        return ResponseEntity.ok(
-                ApiResponse.ok("Datos: ", serv.browseClientes(keyword))
-        );
+    @ResponseBody
+    public ApiResponse browse(@RequestParam("keyword") String keyword) {
+        return ApiResponse.ok("Datos: ", serv.browseClientes(keyword));
     }
 
+    //PERSIST: CREATE
     @GetMapping("/form/create")
     public String formCreate(@RequestParam("isEmpresa") boolean isEmpresa, Model model) {
         var cliente = new ClienteDTO();
@@ -68,6 +68,7 @@ public class ClientsController {
         return "redirect:/business/clients";
     }
 
+    //PERSIST: UPDATE
     @GetMapping("/form/update/{id}")
     public String formUpdate(@PathVariable Long id, Model model) {
         var cliente = serv.readCliente(id).orElseThrow();
@@ -96,6 +97,7 @@ public class ClientsController {
         return "redirect:/business/clients";
     }
 
+    //VIEW
     @GetMapping("/form/view/{id}")
     public String formView(@PathVariable Long id, Model model) {
         var cliente = serv.readCliente(id).orElseThrow();
@@ -161,6 +163,7 @@ public class ClientsController {
         return errors.hasErrors();
     }
 
+    //DELETE
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public void delete(@PathVariable Long id) {

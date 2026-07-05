@@ -1,12 +1,10 @@
 package com.example.aguacontrol.validator;
 
-import com.example.aguacontrol.dto.EmpresaDTO;
+import com.example.aguacontrol.dto.business.clients.EmpresaDTO;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import java.util.Map;
 
 @Component
 public class EmpresaDTOValidator implements Validator {

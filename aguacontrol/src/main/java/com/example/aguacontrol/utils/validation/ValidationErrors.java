@@ -1,4 +1,4 @@
-package com.example.aguacontrol.utils;
+package com.example.aguacontrol.utils.validation;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

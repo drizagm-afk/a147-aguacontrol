@@ -1,4 +1,4 @@
-package com.example.aguacontrol.dto;
+package com.example.aguacontrol.dto.business.clients;
 
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package com.example.aguacontrol.service;
 
 import com.example.aguacontrol.dto.SignUpFormDTO;
-import com.example.aguacontrol.utils.ValidationErrors;
+import com.example.aguacontrol.utils.validation.ValidationErrors;
 import com.example.aguacontrol.generic.CrudService;
 import com.example.aguacontrol.model.Usuario;
 import org.springframework.transaction.annotation.Transactional;

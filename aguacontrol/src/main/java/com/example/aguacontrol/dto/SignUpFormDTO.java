@@ -1,5 +1,6 @@
 package com.example.aguacontrol.dto;
 
+import com.example.aguacontrol.dto.business.clients.EmpresaDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

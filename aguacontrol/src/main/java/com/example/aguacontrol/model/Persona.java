@@ -22,7 +22,7 @@ public class Persona {
     @NotBlank
     private String nombre;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "PERSONA_TELEFONOS",
             joinColumns = @JoinColumn(name = "id_persona"),
@@ -31,7 +31,7 @@ public class Persona {
     @OrderBy("id ASC")
     private List<Telefono> telefonos;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "PERSONA_DIRECCIONES",
             joinColumns = @JoinColumn(name = "id_persona"),

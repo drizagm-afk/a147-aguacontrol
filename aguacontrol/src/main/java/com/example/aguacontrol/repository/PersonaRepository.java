@@ -6,16 +6,23 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface PersonaRepository extends CrudRepository<Persona, Long> {
     @Query("""
             SELECT p FROM Persona p
             WHERE :keyword IS NULL
-            OR LOWER(p.nombre) LIKE LOWER(TRIM(:keyword)) 
+            OR LOWER(p.nombre) LIKE LOWER(TRIM(:keyword))
             ORDER BY p.id DESC
             """)
     List<Persona> browse(String keyword);
+
+    @Query("""
+            SELECT p FROM Persona p
+            WHERE LOWER(p.nombre) = TRIM(LOWER(:nombre))
+            """)
+    Optional<Persona> findByNombre(String nombre);
 
     //TELEFONOS
     @Query("""
@@ -52,11 +59,11 @@ public interface PersonaRepository extends CrudRepository<Persona, Long> {
     }
 
     default Long findLastUsedTelefonoId(Long id) {
-        var DTOs = findLastUsedTelefonoRaw(List.of(id));
-        if (DTOs.isEmpty())
+        var raw = findLastUsedTelefonoRaw(List.of(id));
+        if (raw.isEmpty())
             return null;
 
-        return DTOs.getFirst().getTelefonoId();
+        return raw.getFirst().getTelefonoId();
     }
 
     default Map<Long, Long> findLastUsedTelefonoIds(List<Long> ids) {
@@ -102,11 +109,11 @@ public interface PersonaRepository extends CrudRepository<Persona, Long> {
     }
 
     default Long findLastUsedDireccionId(Long id) {
-        var DTOs = findLastUsedDireccionRaw(List.of(id));
-        if (DTOs.isEmpty())
+        var raw = findLastUsedDireccionRaw(List.of(id));
+        if (raw.isEmpty())
             return null;
 
-        return DTOs.getFirst().getDireccionId();
+        return raw.getFirst().getDireccionId();
     }
 
     default Map<Long, Long> findLastUsedDireccionIds(List<Long> ids) {

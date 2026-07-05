@@ -26,7 +26,7 @@ public class Pedido {
     @Column(name = "fecha_recepcion")
     private LocalDate fechaRecepcion;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_persona")
     private Persona persona;
     
@@ -42,7 +42,7 @@ public class Pedido {
     @JoinColumn(name = "id_estado_pedido")
     private EstadoPedido estado;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_pago")
     private Pago pago;
 

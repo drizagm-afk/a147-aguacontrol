@@ -6,11 +6,10 @@ import com.example.aguacontrol.model.Individuo;
 import com.example.aguacontrol.model.Persona;
 import com.example.aguacontrol.repository.EmpresaRepository;
 import com.example.aguacontrol.repository.PersonaRepository;
-import com.example.aguacontrol.utils.ValidationErrors;
+import com.example.aguacontrol.utils.validation.ValidationErrors;
 import com.example.aguacontrol.model.Usuario;
 import com.example.aguacontrol.repository.RolRepository;
 import com.example.aguacontrol.repository.UsuarioRepository;
-import com.example.aguacontrol.service.PersonaService;
 import com.example.aguacontrol.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +23,7 @@ import java.util.Set;
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository repo;
     private final RolRepository rolRepo;
+
     private final PersonaRepository personaRepo;
     private final EmpresaRepository empresaRepo;
 

@@ -1,4 +1,4 @@
-package com.example.aguacontrol.dto;
+package com.example.aguacontrol.dto.business.clients;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +15,6 @@ import java.util.List;
 @Data
 public class ClienteDTO {
     private Long id;
-    private String codigo;
 
     @NotBlank(message = "El Nombre es obligatorio")
     private String nombre;

@@ -37,4 +37,15 @@ public class TelefonoServiceImpl implements TelefonoService {
     public Iterable<Telefono> readAll() {
         return repo.findAll();
     }
+
+    //CUSTOM
+    @Override
+    public Telefono ensure(String numero) {
+        return repo.findByNumero(numero).orElseGet(() -> {
+            var telefono = new Telefono();
+            telefono.setNumero(numero);
+            
+            return repo.save(telefono);
+        });
+    }
 }

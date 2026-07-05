@@ -1,11 +1,14 @@
 package com.example.aguacontrol.serviceImpl;
 
-import com.example.aguacontrol.dto.ClienteDTO;
-import com.example.aguacontrol.dto.EmpresaDTO;
+import com.example.aguacontrol.dto.business.clients.ClienteDTO;
+import com.example.aguacontrol.dto.business.clients.ClienteViewDTO;
+import com.example.aguacontrol.dto.business.clients.EmpresaDTO;
 import com.example.aguacontrol.model.*;
 import com.example.aguacontrol.repository.DireccionRepository;
 import com.example.aguacontrol.repository.TelefonoRepository;
-import com.example.aguacontrol.utils.ValidationErrors;
+import com.example.aguacontrol.service.DireccionService;
+import com.example.aguacontrol.service.TelefonoService;
+import com.example.aguacontrol.utils.validation.ValidationErrors;
 import com.example.aguacontrol.repository.EmpresaRepository;
 import com.example.aguacontrol.repository.PersonaRepository;
 import com.example.aguacontrol.service.PersonaService;
@@ -17,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +27,8 @@ public class PersonaServiceImpl implements PersonaService {
     private final PersonaRepository repo;
     private final EmpresaRepository empresaRepo;
 
-    private final TelefonoRepository telefonoRepo;
-    private final DireccionRepository direccionRepo;
+    private final TelefonoService telefonoServ;
+    private final DireccionService direccionServ;
 
     @Override
     public Persona create(Persona persona) {
@@ -54,7 +55,44 @@ public class PersonaServiceImpl implements PersonaService {
         return repo.findAll();
     }
 
-    //CUSTOM CLIENTES
+    //>>>> DTOS
+    //CLIENTE VIEW DTO
+    private ClienteViewDTO mapToClienteView(Persona persona, Long lastTelefonoId, Long lastDireccionId) {
+        return new ClienteViewDTO(
+                persona.getId(),
+                String.format("CL-%04d", persona.getId()),
+                persona.getNombre(),
+                persona instanceof Empresa,
+                persona.getTelefonos().stream()
+                        .filter(t -> Objects.equals(t.getId(), lastTelefonoId))
+                        .map(Telefono::getNumero).findFirst().orElse(""),
+                persona.getDirecciones().stream()
+                        .filter(d -> Objects.equals(d.getId(), lastDireccionId))
+                        .map(Direccion::getReferencia).findFirst().orElse("")
+        );
+    }
+
+    @Override
+    public List<ClienteViewDTO> browseClientes(String keyword) {
+        List<Persona> personas;
+        if (keyword == null || keyword.trim().isEmpty())
+            personas = repo.browse(null);
+        else
+            personas = repo.browse("%" + keyword + "%");
+
+        var ids = personas.stream().map(Persona::getId).toList();
+        var telefonos = repo.findLastUsedTelefonoIds(ids);
+        var direcciones = repo.findLastUsedDireccionIds(ids);
+
+        return personas.stream()
+                .map(p -> mapToClienteView(
+                        p,
+                        telefonos.getOrDefault(p.getId(), null),
+                        direcciones.getOrDefault(p.getId(), null)
+                )).toList();
+    }
+
+    //CLIENTE DTO
     private ClienteDTO.TelefonoDTO mapToTelefono(Telefono telefono) {
         return new ClienteDTO.TelefonoDTO(
                 telefono.getNumero()
@@ -101,7 +139,6 @@ public class PersonaServiceImpl implements PersonaService {
 
         return new ClienteDTO(
                 persona.getId(),
-                String.format("CL-%03d", persona.getId()),
                 persona.getNombre(),
                 empresaDTO != null,
                 empresaDTO,
@@ -115,27 +152,6 @@ public class PersonaServiceImpl implements PersonaService {
         return read(id).map(p -> mapToCliente(
                 p, repo.findLastUsedTelefonoId(id), repo.findLastUsedDireccionId(id)
         ));
-    }
-
-    @Override
-    public List<ClienteDTO> browseClientes(String keyword) {
-        List<Persona> personas;
-        if (keyword == null || keyword.trim().isEmpty())
-            personas = repo.browse(null);
-        else
-            personas = repo.browse("%" + keyword + "%");
-
-        var ids = personas.stream().map(Persona::getId).toList();
-        var telefonos = repo.findLastUsedTelefonoIds(ids);
-        var direcciones = repo.findLastUsedDireccionIds(ids);
-
-        return personas.stream()
-                .map(p -> {
-                    var telefonoId = telefonos.getOrDefault(p.getId(), null);
-                    var direccionId = direcciones.getOrDefault(p.getId(), null);
-
-                    return mapToCliente(p, telefonoId, direccionId);
-                }).toList();
     }
 
     //CLIENTE REGISTRY DTO
@@ -178,36 +194,16 @@ public class PersonaServiceImpl implements PersonaService {
 
         //TELEFONOS
         List<Telefono> telefonos = new ArrayList<>();
-        for (var t : dto.getTelefonos()) {
-            var optTelefono = telefonoRepo.findByNumero(t.getNumero());
-            if (optTelefono.isPresent())
-                telefonos.add(optTelefono.get());
-            else {
-                var telefono = new Telefono();
-                telefono.setNumero(t.getNumero());
-                telefonoRepo.save(telefono);
+        for (var t : dto.getTelefonos())
+            telefonos.add(telefonoServ.ensure(t.getNumero()));
 
-                telefonos.add(telefono);
-            }
-        }
         persona.setTelefonos(telefonos);
 
         //DIRECCIONES
         List<Direccion> direcciones = new ArrayList<>();
-        for (var d : dto.getDirecciones()) {
-            var optDireccion = direccionRepo.findByReferencia(d.getReferencia());
-            if (optDireccion.isPresent())
-                direcciones.add(optDireccion.get());
-            else {
-                var direccion = new Direccion();
-                direccion.setReferencia(d.getReferencia());
-                direccion.setLatitud(BigDecimal.ZERO);
-                direccion.setLongitud(BigDecimal.ZERO);
-                direccionRepo.save(direccion);
+        for (var d : dto.getDirecciones())
+            direcciones.add(direccionServ.ensure(d.getReferencia()));
 
-                direcciones.add(direccion);
-            }
-        }
         persona.setDirecciones(direcciones);
 
         return repo.save(persona);

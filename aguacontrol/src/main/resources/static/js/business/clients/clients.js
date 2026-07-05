@@ -15,8 +15,8 @@ function browse(keyword = "") {
                 <tr>
                     <td>${i.codigo}</td>
                     <td>${i.nombre}</td>
-                    <td>${i.telefonos[i.telefonos.length - 1]?.numero ?? ""}</td>
-                    <td>${i.direcciones[i.direcciones.length - 1]?.referencia ?? ""}</td>
+                    <td>${i.telefono?.numero ?? ""}</td>
+                    <td>${i.direccion?.referencia ?? ""}</td>
                     <td>
                         <a href="/business/clients/form/view/${i.id}">Ver</a>
                         <a href="/business/clients/form/update/${i.id}">Editar</a>

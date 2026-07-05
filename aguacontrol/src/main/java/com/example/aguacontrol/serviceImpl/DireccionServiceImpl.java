@@ -6,6 +6,7 @@ import com.example.aguacontrol.service.DireccionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -36,5 +37,18 @@ public class DireccionServiceImpl implements DireccionService {
     @Override
     public Iterable<Direccion> readAll() {
         return repo.findAll();
+    }
+
+    //CUSTOM
+    @Override
+    public Direccion ensure(String referencia) {
+        return repo.findByReferencia(referencia).orElseGet(() -> {
+            var direccion = new Direccion();
+            direccion.setReferencia(referencia);
+            direccion.setLatitud(BigDecimal.ZERO);
+            direccion.setLongitud(BigDecimal.ZERO);
+
+            return repo.save(direccion);
+        });
     }
 }

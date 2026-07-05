@@ -1,6 +1,5 @@
 package com.example.aguacontrol.serviceImpl;
 
-import com.example.aguacontrol.dto.ProductoStockDTO;
 import com.example.aguacontrol.model.Producto;
 import com.example.aguacontrol.repository.ProductoRepository;
 import com.example.aguacontrol.service.ProductoService;
@@ -27,10 +26,6 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Optional<Producto> read(Long id) {
         return repo.findById(id);
-    }
-
-    public Optional<ProductoStockDTO> stockOf(Long id) {
-        return repo.stockOf(id);
     }
 
     @Override

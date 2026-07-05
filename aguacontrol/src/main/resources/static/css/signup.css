@@ -1,0 +1,455 @@
+@import "/css/base.css";
+
+/* ============================================================
+   AGUACONTROL — SIGN UP (REGISTRO) STYLES
+   ============================================================ */
+
+.signup-page-container {
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ══════════════════════════════════════
+   ESTADO 1: PANTALLA DIVIDIDA (SPLIT SCREEN)
+   ══════════════════════════════════════ */
+.signup-page-container.split-view {
+    flex-direction: row;
+}
+
+.signup-page-container.split-view .sidebar-left {
+    width: 38%;
+    background-color: var(--palette-950);
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.signup-page-container.split-view .sidebar-left .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.signup-page-container.split-view .sidebar-left .logo i {
+    font-size: 20px;
+}
+
+.signup-page-container.split-view .main-right {
+    flex: 1;
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+/* ══════════════════════════════════════
+   ESTADO 2, 3, 4: VISTA DE CABECERA/PIE (CENTERED VIEW)
+   ══════════════════════════════════════ */
+.signup-page-container.centered-view {
+    flex-direction: column;
+    background-color: var(--white);
+}
+
+.signup-page-container.centered-view .sidebar-left {
+    height: 70px;
+    width: 100%;
+    background-color: var(--palette-950);
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    flex-shrink: 0;
+}
+
+.signup-page-container.centered-view .sidebar-left .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.signup-page-container.centered-view .main-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.signup-page-container.centered-view .footer-bottom {
+    height: 70px;
+    background-color: var(--palette-950);
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* Ocultar footer en vista dividida */
+.signup-page-container.split-view .footer-bottom {
+    display: none;
+}
+
+/* ── FORM BOX GENERAL ── */
+.form-box {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.form-box.wide {
+    max-width: 520px;
+}
+
+.form-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.form-subtitle {
+    font-size: 0.82rem;
+    color: var(--mid-light);
+    margin-bottom: 24px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.form-subtitle strong {
+    color: var(--black);
+}
+
+/* ── INPUT GROUPS CON ICONOS ── */
+.input-fields-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.icon-input-group {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--palette-500); /* Borde azul de diseño */
+    border-radius: 8px;
+    padding: 0 14px;
+    background: var(--white);
+    gap: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.icon-input-group:focus-within {
+    border-color: var(--palette-700);
+    box-shadow: 0 0 0 3px rgba(30,151,255,.12);
+}
+
+.icon-input-group i {
+    color: #0676FF;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.icon-input-group input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    flex: 1;
+    padding: 13px 0;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--dark);
+}
+
+.icon-input-group input::placeholder {
+    color: var(--mid-light);
+}
+
+.eye-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #0676FF;
+    font-size: 16px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+}
+
+/* ── FUERZA DE CONTRASEÑA ── */
+.strength-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: -6px;
+    margin-bottom: 16px;
+}
+
+.strength-bars {
+    display: flex;
+    gap: 5px;
+    flex: 1;
+}
+
+.strength-bar {
+    height: 4px;
+    flex: 1;
+    background-color: var(--palette-200);
+    border-radius: 2px;
+}
+
+.strength-bar.active {
+    background-color: var(--success);
+}
+
+.strength-text {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--success);
+}
+
+/* ── REQUERIMIENTOS ── */
+.req-container {
+    background-color: var(--palette-50);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.req-title {
+    font-size: 0.78rem;
+    color: var(--gray);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.req-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.req-list li {
+    font-size: 0.76rem;
+    color: var(--gray);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Requisito cumplido */
+.req-list li.req-ok {
+    color: var(--success);
+}
+.req-list li.req-ok i {
+    color: var(--success);
+}
+
+/* Requisito NO cumplido */
+.req-list li.req-fail {
+    color: var(--alert);
+}
+.req-list li.req-fail i {
+    color: var(--alert);
+}
+
+/* Estilo neutro (sin clase): bullet por defecto */
+.req-list li:not(.req-ok):not(.req-fail)::before {
+    content: "•";
+    color: var(--gray);
+}
+
+/* ── CHECKBOX TÉRMINOS ── */
+.terms-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.terms-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #0061ff;
+    cursor: pointer;
+}
+
+.terms-group a {
+    color: #0061ff;
+}
+
+.terms-group a:hover {
+    text-decoration: underline;
+}
+
+/* ── ERRORES DE CAMPO ── */
+.field-error {
+    font-size: 0.75rem;
+    color: var(--alert);
+    text-align: left;
+    margin-top: -12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.field-error:empty {
+    display: none;
+}
+
+/* ── BANNERS DE ALERTA (ERROR / ÉXITO) ── */
+.alert-banner {
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.alert-banner.error {
+    background-color: #ef5350;
+    color: var(--white);
+}
+
+.alert-banner.success {
+    background-color: var(--success);
+    color: var(--white);
+}
+
+.alert-banner.success a {
+    color: var(--white);
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+/* ── BOTONES ── */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-bottom: 16px;
+}
+
+.btn-submit.btn-blue-bright {
+    background-color: #0061ff;
+}
+
+.btn-submit.btn-blue-bright:hover {
+    background-color: #0051d4;
+}
+
+.btn-submit.btn-blue-dark {
+    background-color: var(--palette-900);
+}
+
+.btn-submit.btn-blue-dark:hover {
+    background-color: var(--palette-950);
+}
+
+.btn-submit.btn-gray {
+    background-color: #70798c;
+}
+
+.btn-submit.btn-gray:hover {
+    background-color: #5c6375;
+}
+
+/* ── FOOTER ENLACES ── */
+.footer-text {
+    font-size: 0.8rem;
+    color: var(--mid-light);
+    margin-bottom: 12px;
+}
+
+.footer-text a {
+    color: var(--palette-600);
+    font-weight: 600;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+.version-text {
+    font-size: 0.72rem;
+    color: var(--mid-light);
+}
+
+/* ── INPUTS DE CÓDIGO (SEIS DÍGITOS) ── */
+.code-inputs-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.code-field-square {
+    width: 50px;
+    height: 60px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    border: 1.5px solid var(--palette-200) !important;
+    border-radius: 8px !important;
+    outline: none !important;
+    background-color: var(--white) !important;
+    color: var(--black);
+}
+
+.code-field-square:focus {
+    border-color: var(--palette-500) !important;
+    box-shadow: 0 0 0 3px rgba(30,151,255,.12) !important;
+}
+
+/* Responsive: apila en móvil para split-view */
+@media (max-width: 768px) {
+    .signup-page-container.split-view {
+        flex-direction: column;
+    }
+    .signup-page-container.split-view .sidebar-left {
+        width: 100%;
+        height: 70px;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+    }
+    .signup-page-container.split-view .main-right {
+        padding: 30px 20px 50px;
+    }
+}

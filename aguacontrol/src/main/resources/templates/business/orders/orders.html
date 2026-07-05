@@ -6,7 +6,40 @@
 </head>
 <body>
 
-<div layout:fragment="content"></div>
+<div layout:fragment="content">
+    <div>
+        <form id="form"
+              th:action="@{business/orders/create}"
+              th:object="${form}" method="post">
+            <div>
+                <input type="text" th:field="*{cliente}">
+
+                <div>
+                    <input type="text" th:field="*{telefono}">
+                    <input type="text" th:field="*{direccion}">
+                </div>
+
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>PRODUCTO</th>
+                            <th>CANTIDAD</th>
+                            <th>SUBTOTAL</th>
+                        </tr>
+                        </thead>
+                        <tbody id="productos"></tbody>
+                    </table>
+                    <button type="button" id="productoAdd">Agregar Producto</button>
+                </div>
+
+                <div>
+                    <input type="radio" th:field="*{}">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

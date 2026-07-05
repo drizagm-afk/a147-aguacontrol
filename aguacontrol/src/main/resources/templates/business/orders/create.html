@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{business/base}">
+<head>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <a th:href="@{/business/orders/manage}">Gestionar Pedidos</a>
+    <div>
+        <form id="form"
+              th:action="@{business/orders/create}"
+              th:object="${form}" method="post">
+            <div>
+                <input id="cliente" type="text" th:field="*{cliente}">
+
+                <div>
+                    <input id="telefono" type="text" th:field="*{telefono}">
+                    <input id="direccion" type="text" th:field="*{direccion}">
+                </div>
+
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>PRODUCTO</th>
+                            <th>CANTIDAD</th>
+                            <th>SUBTOTAL</th>
+                        </tr>
+                        </thead>
+                        <tbody id="productos"></tbody>
+                    </table>
+                    <button type="button" id="productoAdd">Agregar Producto</button>
+                </div>
+
+                <div id="metodoPago">
+                    <input id="metodoPagoId" type="number" th:field="*{metodoPagoId}">
+                    <button type="button">
+                        <span>Efectivo</span>
+                    </button>
+                    <button type="button">
+                        <span>Transferencia</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<th:block>
+    <script type="module" th:src="@{/js/business/orders/create.js}"></script>
+</th:block>
+
+</body>
+</html>

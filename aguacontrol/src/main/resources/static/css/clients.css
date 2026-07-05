@@ -1,0 +1,300 @@
+@import "/css/base.css";
+
+/* ============================================================
+   AGUACONTROL — CLIENT LIST STYLES
+   ============================================================ */
+
+.clients-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.clients-header-block {
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.clients-header-block h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 6px;
+}
+
+.clients-header-block p {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+/* ── BARRA DE BÚSQUEDA Y BOTÓN FILTRAR ── */
+.search-filter-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.search-input-wrap {
+    flex: 1;
+    position: relative;
+}
+
+.search-input-wrap i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--mid-light);
+    font-size: 15px;
+}
+
+.search-field {
+    width: 100%;
+    border: 1.5px solid #ABB2C0 !important;
+    border-radius: 99px !important;
+    padding: 10px 16px 10px 42px !important;
+    font-size: 0.85rem;
+    outline: none !important;
+    background-color: var(--white) !important;
+    color: var(--dark);
+    height: 42px;
+}
+
+.btn-filter {
+    background-color: var(--white);
+    border: 1.5px solid #ABB2C0;
+    border-radius: 99px;
+    padding: 0 20px;
+    height: 42px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--palette-900);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+.btn-filter:hover {
+    background-color: var(--palette-50);
+}
+
+/* ── BOTONES DE ACCIÓN (AGREGAR) ── */
+.action-buttons-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.btn-add-action {
+    height: 44px;
+    border: none;
+    border-radius: 6px;
+    color: var(--white);
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #0061ff;
+    transition: background-color 0.2s;
+}
+
+.btn-add-action:hover {
+    background-color: #0052d4;
+}
+
+/* ── TABLA DE CLIENTES ── */
+.table-card {
+    border: 1.5px solid #ABB2C0;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--white);
+}
+
+.clients-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.clients-table th {
+    background-color: var(--white);
+    border-bottom: 1.5px solid #ABB2C0;
+    padding: 14px 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.clients-table td {
+    padding: 16px 20px;
+    font-size: 0.88rem;
+    color: var(--dark);
+    border-bottom: 1px solid var(--palette-100);
+    vertical-align: middle;
+}
+
+.clients-table tr:last-child td {
+    border-bottom: none;
+}
+
+.clients-table td.code-cell {
+    color: #0061ff;
+    font-weight: 700;
+}
+
+.clients-table td.alias-cell {
+    font-weight: 600;
+}
+
+.clients-table td.actions-cell {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.action-icon-btn {
+    background: none;
+    border: none;
+    color: #0061ff;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.action-icon-btn:hover {
+    color: #0052d4;
+}
+
+/* ── PAGINACIÓN ── */
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-top: 1.5px solid #ABB2C0;
+    background-color: var(--white);
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pagination-btn {
+    border: 1px solid transparent;
+    background: none;
+    color: var(--gray);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.pagination-btn.active {
+    background-color: var(--palette-950);
+    color: var(--white);
+}
+
+.pagination-btn:hover:not(.active) {
+    background-color: var(--palette-50);
+}
+
+/* ── AUTOCOMPLETADO DE BÚSQUEDA ── */
+.autocomplete-dropdown {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    background-color: var(--white);
+    border: 1px solid #ABB2C0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(14, 42, 93, 0.08);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.autocomplete-item {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+    color: var(--dark);
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.autocomplete-item + .autocomplete-item {
+    border-top: 1px solid #ABB2C0;
+}
+
+.autocomplete-item:hover {
+    background-color: var(--palette-50);
+}
+
+/* ── DROPDOWN FILTRAR (Caja blanca con bordes) ── */
+.filter-dropdown-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: var(--white);
+    border: 1px solid #ABB2C0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(14, 42, 93, 0.08);
+    width: 230px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 10px 16px;
+    color: var(--palette-900);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    text-align: left;
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.filter-item + .filter-item {
+    border-top: 1px solid #ABB2C0;
+}
+
+.filter-item:hover {
+    background-color: var(--palette-50);
+}
+
+.filter-item i {
+    font-size: 14px;
+    color: var(--palette-700);
+}
