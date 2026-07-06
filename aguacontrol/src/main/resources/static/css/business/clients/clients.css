@@ -1,0 +1,222 @@
+@import "/css/business/business.css";
+
+.clients-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    font-family: "Inter", sans-serif;
+}
+
+.clients-header-block {
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.clients-header-block h2 {
+    margin-bottom: 6px;
+    color: var(--black);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.clients-header-block p {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+.search-filter-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.search-input-wrap {
+    flex: 1;
+    position: relative;
+}
+
+.search-input-wrap i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--mid-light);
+    font-size: 15px;
+}
+
+.search-field {
+    width: 100%;
+    height: 42px;
+    border: 1.5px solid #abb2c0;
+    border-radius: 99px;
+    outline: none;
+    background: var(--white);
+    color: var(--dark);
+    font-size: 0.85rem;
+}
+
+.search-input-wrap > .search-field {
+    padding: 10px 16px 10px 54px;
+}
+
+.search-field:focus {
+    border-color: var(--palette-500);
+    box-shadow: 0 0 0 3px rgba(30, 151, 255, 0.14);
+}
+
+.action-buttons-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.btn-add-action {
+    min-height: 44px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0061ff;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color var(--transition), transform var(--transition);
+}
+
+.btn-add-action:hover {
+    background: #0052d4;
+    color: var(--white);
+    text-decoration: none;
+}
+
+.table-card {
+    overflow: hidden;
+    border: 1.5px solid #abb2c0;
+    border-radius: 8px;
+    background: var(--white);
+}
+
+.clients-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.clients-table th {
+    padding: 14px 20px;
+    border-bottom: 1.5px solid #abb2c0;
+    background: var(--white);
+    color: var(--gray);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.clients-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--palette-100);
+    color: var(--dark);
+    font-size: 0.88rem;
+    vertical-align: middle;
+}
+
+.clients-table tr:last-child td {
+    border-bottom: none;
+}
+
+.clients-table td.code-cell {
+    color: #0061ff;
+    font-weight: 700;
+}
+
+.clients-table td.alias-cell {
+    font-weight: 600;
+}
+
+.clients-table td.actions-cell {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.actions-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.action-icon-btn {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #0061ff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+.action-icon-btn:hover {
+    background: var(--palette-50);
+    color: #0052d4;
+    text-decoration: none;
+}
+
+.empty-state-cell {
+    padding: 56px 20px;
+    color: var(--mid-light);
+    text-align: center;
+}
+
+.empty-state-cell i {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--palette-300);
+    font-size: 2.4rem;
+}
+
+.empty-state-title {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--dark);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.empty-state-subtitle {
+    display: block;
+    font-size: 0.82rem;
+}
+
+@media (max-width: 768px) {
+    .clients-container {
+        padding: 24px 16px;
+    }
+
+    .action-buttons-row {
+        grid-template-columns: 1fr;
+    }
+
+    .table-card {
+        overflow-x: auto;
+    }
+
+    .clients-table {
+        min-width: 720px;
+    }
+}

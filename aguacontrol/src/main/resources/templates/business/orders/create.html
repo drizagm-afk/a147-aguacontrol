@@ -3,12 +3,15 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{business/base}">
 <head>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/business/orders/create.css}">
+    </th:block>
 </head>
 <body>
 
 <div layout:fragment="content">
-    <a th:href="@{/business/orders/manage}">Gestionar Pedidos</a>
-    <div>
+    <div class="orders-create-container">
+        <a th:href="@{/business/orders/manage}">Gestionar Pedidos</a>
         <form id="form"
               th:action="@{business/orders/create}"
               th:object="${form}" method="post">
@@ -48,7 +51,7 @@
     </div>
 </div>
 
-<th:block>
+<th:block layout:fragment="scripts">
     <script type="module" th:src="@{/js/business/orders/create.js}"></script>
 </th:block>
 

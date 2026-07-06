@@ -1,56 +1,111 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A147 Business</title>
 
     <meta th:name="mode" th:content="${mode}">
 
-    <meta th:name="_csrf" th:content="${_csrf.token}"/>
-    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta th:name="_csrf" th:content="${_csrf.token}" />
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
 
     <!--LIBRARIES-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 
     <!--MY STYLES-->
-    <link rel="stylesheet" th:href="@{/css/business.css}">
+    <th:block layout:fragment="styles"></th:block>
+
 </head>
+
 <body th:with="isReadOnly=${mode=='VIEW'}">
 
-<a th:href="@{/home}">Panel Clients</a>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo-badge">
+                    <i class="bi bi-droplet-fill"></i>
+                </div>
+                <div class="sidebar-logo-copy">
+                    <span class="sidebar-logo-title">A147</span>
+                    <span class="sidebar-logo-subtitle">Distribuidora de Agua</span>
+                </div>
+            </div>
 
-<a th:href="@{/business/clients}">Clientes</a>
-<a th:href="@{/business/orders}">Pedidos</a>
+            <nav class="sidebar-nav">
+                <a class="sidebar-nav-item" th:href="@{/business/clients}">
+                    <i class="bi bi-people"></i>
+                    <span>Clientes</span>
+                </a>
+                <a class="sidebar-nav-item" th:href="@{/business/orders}">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Pedidos</span>
+                </a>
+            </nav>
 
-<div layout:fragment="content">
-    <h1>Welcome back!</h1>
-</div>
+            <div class="sidebar-footer">
+                <form class="business-logout-form" th:action="@{/logout}" method="post">
+                    <button type="submit" class="sidebar-nav-item">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Cerrar Sesion</span>
+                    </button>
+                </form>
+            </div>
+        </aside>
 
-<div layout:fragment="modal">
-    <h1>MODAL CONTENT</h1>
-</div>
+        <div class="main-content">
+            <header class="topbar">
+                <div class="topbar-title">A147 Business</div>
+                <div class="topbar-profile-wrapper">
+                    <button id="profileMenuToggle" class="topbar-profile-card" type="button" aria-expanded="false"
+                        aria-controls="profileMenu">
+                        <span class="profile-card-copy">
+                            <span class="profile-card-name" th:text="${username}"></span>
+                            <span class="profile-card-role" th:text="${userrole}"></span>
+                        </span>
+                        <span class="profile-card-avatar" aria-hidden="true">W</span>
+                    </button>
 
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Cerrar Sesión</button>
-</form>
+                    <div id="profileMenu" class="profile-menu" hidden>
+                        <a class="profile-menu-item" th:href="@{/home}">
+                            <i class="bi bi-arrow-left-right"></i>
+                            <span>Panel Clientes</span>
+                        </a>
+                        <form class="profile-menu-logout-form" th:action="@{/logout}" method="post">
+                            <button type="submit" class="profile-menu-item profile-menu-logout">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Cerrar Sesion</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </header>
 
-<div id="server-toasts">
-    <div th:each="toast : ${toasts}"
-         th:data-type="${toast.type}"
-         th:data-title="${toast.title}"
-         th:data-message="${toast.message}">
+            <main class="dashboard-body">
+                <div layout:fragment="content"></div>
+            </main>
+        </div>
     </div>
-</div>
 
-<!--LIBRARIES-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+    <div layout:fragment="modal"></div>
 
-<!--MY SCRIPTS >:D-->
-<script type="module" th:src="@{/js/utils/toaster.js}"></script>
-<script type="module" th:src="@{/js/business/main.js}"></script>
-<th:block layout:fragment="scripts"></th:block>
+    <div id="server-toasts">
+        <div th:each="toast : ${toasts}" th:data-type="${toast.type}" th:data-title="${toast.title}"
+            th:data-message="${toast.message}">
+        </div>
+    </div>
+
+    <!--LIBRARIES-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+
+    <!--MY SCRIPTS >:D-->
+    <script type="module" th:src="@{/js/utils/toaster.js}"></script>
+    <script type="module" th:src="@{/js/business/main.js}"></script>
+    <script type="module" th:src="@{/js/business/profile-menu.js}"></script>
+    <th:block layout:fragment="scripts"></th:block>
 
 </body>
+
 </html>

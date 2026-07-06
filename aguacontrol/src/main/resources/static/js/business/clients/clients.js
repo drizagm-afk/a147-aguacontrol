@@ -5,21 +5,49 @@ const $content = document.getElementById("content");
 
 $input.addEventListener('input', e => browse(e.target.value));
 
+function text(value) {
+    const div = document.createElement("div");
+    div.textContent = value ?? "";
+    return div.innerHTML;
+}
+
+function renderEmptyState() {
+    $content.innerHTML = `
+        <tr>
+            <td class="empty-state-cell" colspan="5">
+                <i class="bi bi-search"></i>
+                <span class="empty-state-title">Sin resultados</span>
+                <span class="empty-state-subtitle">No se encontraron clientes que coincidan con la busqueda.</span>
+            </td>
+        </tr>
+    `;
+}
+
 function browse(keyword = "") {
     const params = new URLSearchParams({keyword: keyword}).toString();
     fetch(`/business/clients/browse?${params}`)
         .then(r => r.json())
         .then(r => {
             $content.innerHTML = "";
+            if (!r.data || r.data.length === 0) {
+                renderEmptyState();
+                return;
+            }
             r.data.forEach(i => $content.innerHTML += `
                 <tr>
-                    <td>${i.codigo}</td>
-                    <td>${i.nombre}</td>
-                    <td>${i.telefono?.numero ?? ""}</td>
-                    <td>${i.direccion?.referencia ?? ""}</td>
-                    <td>
-                        <a href="/business/clients/form/view/${i.id}">Ver</a>
-                        <a href="/business/clients/form/update/${i.id}">Editar</a>
+                    <td class="code-cell">${text(i.codigo)}</td>
+                    <td class="alias-cell">${text(i.nombre)}</td>
+                    <td>${text(i.telefono ?? "")}</td>
+                    <td>${text(i.direccion ?? "")}</td>
+                    <td class="actions-cell">
+                        <div class="actions-wrapper">
+                            <a class="action-icon-btn" href="/business/clients/form/view/${i.id}" title="Ver detalle">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a class="action-icon-btn" href="/business/clients/form/update/${i.id}" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             `);

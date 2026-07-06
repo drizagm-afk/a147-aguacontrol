@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{business/base}">
+<head>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="orders-list-container">
+
+        <!-- Encabezado -->
+        <div class="orders-header-row">
+            <a th:href="@{/business/orders}" class="btn-back-arrow">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <div class="orders-header-info">
+                <h2>Gestión de Pedidos</h2>
+                <p>Monitoreo, edición y cancelación de pedidos registrados.</p>
+            </div>
+        </div>
+
+        <!-- Botón tipo pestaña para registrar -->
+        <div class="orders-tab-row">
+            <a th:href="@{/business/orders}" class="btn-tab-header">
+                <i class="bi bi-plus-lg"></i>
+                <span>REGISTRAR NUEVO PEDIDO</span>
+            </a>
+        </div>
+
+        <!-- Fila de búsqueda y filtros -->
+        <div class="search-filter-row mb-4">
+            <div class="search-input-wrap w-100">
+                <i class="bi bi-search"></i>
+                <input type="text" id="search-input" class="search-field" placeholder="Buscar por cliente o código de pedido...">
+            </div>
+        </div>
+
+        <!-- Tabla de pedidos -->
+        <div class="table-card">
+            <table class="clients-table">
+                <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th>Detalle de Compra</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th class="actions-cell">Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="orders-tbody">
+                <!-- Se poblará dinámicamente -->
+                </tbody>
+            </table>
+
+            <!-- Paginación -->
+            <div class="table-footer" id="table-footer">
+                <span id="showing-summary">Mostrando 0 resultados</span>
+                <div class="pagination-controls">
+                    <button class="pagination-btn"><</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div layout:fragment="modal">
+    <!-- ── CAPA MODAL CANCELAR PEDIDO ── -->
+    <div class="modal-overlay" id="modal-cancel">
+        <div class="modal-box modal-danger">
+            <button class="modal-close-corner" id="btn-close-cancel">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+            <h3 class="modal-title" id="cancel-title">¿Estás seguro que quieres Cancelar este Pedido?</h3>
+            <p class="modal-desc">Esta acción es irreversible y liberará el stock comprometido.</p>
+
+            <div class="modal-actions">
+                <button class="modal-btn-danger" id="btn-confirm-cancel">
+                    Confirmar Cancelación
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── CAPA MODAL EDITAR PEDIDO ── -->
+    <div class="modal-overlay" id="modal-edit">
+        <div class="modal-box" style="max-width: 500px; text-align: left; padding: 36px 40px;">
+            <button class="btn-close-modal" id="btn-close-edit" style="top:24px; right:24px; background:none; border:none; color:var(--palette-950);">
+                <i class="bi bi-x-lg" style="font-size:18px;"></i>
+            </button>
+
+            <h3 class="modal-title" id="edit-title" style="margin-bottom: 20px; text-align: center;">Editar Pedido</h3>
+
+            <div id="modal-edit-container">
+                <!-- Se inyectará el fragmento HTML del servidor -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script type="module" th:src="@{/js/business/orders/orders.js}"></script>
+</th:block>
+
+</body>
+</html>

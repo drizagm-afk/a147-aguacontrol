@@ -4,6 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A147 Clients</title>
 
     <!--LIBRARIES-->
@@ -11,26 +12,77 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 
     <!--MY STYLES-->
-    <link rel="stylesheet" th:href="@{/css/surface.css}">
+    <link rel="stylesheet" th:href="@{/css/surface/base.css}">
 </head>
 <body>
 
-<div sec:authorize="hasAuthority('PERM_DASHBOARD_WORKER')">
-    <a th:href="@{/business/home}">Panel Business</a>
-</div>
+<div class="surface-dashboard-wrapper">
+    <aside class="surface-sidebar">
+        <div>
+            <div class="surface-sidebar-header">
+                <div class="sidebar-logo-badge">
+                    <i class="bi bi-droplet-fill"></i>
+                </div>
+                <div class="surface-logo-copy">
+                    <span class="surface-logo-title">A147</span>
+                    <span class="surface-logo-subtitle">Distribuidora de Agua</span>
+                </div>
+            </div>
 
-<div layout:fragment="content">
-    <h1>CONTENT</h1>
-</div>
+            <nav class="surface-sidebar-nav"></nav>
+        </div>
 
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Cerrar Sesión</button>
-</form>
+        <div class="surface-sidebar-footer">
+            <form class="surface-logout-form" th:action="@{/logout}" method="post">
+                <button type="submit" class="surface-sidebar-nav-item">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Cerrar Sesion</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <div class="surface-main-content">
+        <header class="surface-topbar">
+            <span class="surface-topbar-title">A147 Clients</span>
+
+            <div class="surface-profile-wrapper">
+                <button id="surfaceProfileMenuToggle" class="surface-profile-card" type="button" aria-expanded="false"
+                    aria-controls="surfaceProfileMenu">
+                    <span class="surface-profile-copy">
+                        <span class="surface-profile-name" th:text="${username}"></span>
+                        <span class="surface-profile-role">Cliente</span>
+                    </span>
+                    <span class="surface-profile-avatar" aria-hidden="true">C</span>
+                </button>
+
+                <div id="surfaceProfileMenu" class="surface-profile-menu" hidden>
+                    <a sec:authorize="hasAuthority('PERM_DASHBOARD_WORKER')" class="surface-profile-menu-item"
+                        th:href="@{/business/home}">
+                        <i class="bi bi-arrow-left-right"></i>
+                        <span>Panel Business</span>
+                    </a>
+                    <form class="surface-profile-logout-form" th:action="@{/logout}" method="post">
+                        <button type="submit" class="surface-profile-menu-item surface-profile-menu-logout">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Cerrar Sesion</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </header>
+
+        <main class="surface-dashboard-body">
+            <div layout:fragment="content"></div>
+        </main>
+    </div>
+</div>
 
 <!--LIBRARIES-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
 
 <!--MY SCRIPTS-->
+<script type="module" th:src="@{/js/surface/profile-menu.js}"></script>
 <th:block layout:fragment="scripts"></th:block>
 
 </body>

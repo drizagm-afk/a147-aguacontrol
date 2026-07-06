@@ -1,4 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{business/base}">
+<head>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/business/home.css}">
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="business-home-container">
+        <h1 class="home-welcome-title">
+            <span class="home-welcome-label">Bienvenido</span>
+            <span class="home-welcome-name" th:text="${username}">Papito Cool</span>
+        </h1>
+    </section>
+</div>
+</body>
 </html>

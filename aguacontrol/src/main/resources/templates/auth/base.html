@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A147</title>
 
     <!--LIBRARIES-->
@@ -10,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
 
     <!--MY STYLES-->
-    <link rel="stylesheet" th:href="@{/css/auth.css}">
+    <th:block layout:fragment="styles"></th:block>
 </head>
 <body>
 

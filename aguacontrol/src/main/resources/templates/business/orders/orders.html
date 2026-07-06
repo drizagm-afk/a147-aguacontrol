@@ -3,11 +3,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{business/base}">
 <head>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/business/orders/orders.css}">
+    </th:block>
 </head>
 <body>
 
 <div layout:fragment="content">
-    <div>
+    <div class="orders-container">
         <form id="form"
               th:action="@{business/orders/create}"
               th:object="${form}" method="post">

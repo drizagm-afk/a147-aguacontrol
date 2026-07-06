@@ -1,0 +1,30 @@
+<form th:fragment="form" id="edit-order-form"
+      th:action="@{/business/orders/update}"
+      th:object="${form}" method="post">
+
+    <input type="hidden" th:field="*{id}">
+
+    <div style="text-align: center; margin-bottom: 8px;">
+        <span class="badge-status" th:text="${form.estado}" th:classappend="${#strings.toLowerCase(#strings.replace(form.estado, '_', '-'))}"></span>
+    </div>
+
+    <div class="modal-inputs-list" style="display:flex; flex-direction:column; gap: 18px;">
+        <!-- Campo: Dirección de entrega -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('direccion')} ? 'error'">
+            <label class="form-label" style="font-size:12px; color: var(--palette-950);">Dirección de Entrega</label>
+            <input type="text" th:field="*{direccion}" class="form-input" style="height: 44px; padding: 10px 14px; border: 1.5px solid var(--palette-200); border-radius: 8px;" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" style="font-size: 11px; color: var(--alert); margin-top: 4px;"></div>
+        </div>
+
+        <!-- Campo: Teléfono de contacto -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('telefono')} ? 'error'">
+            <label class="form-label" style="font-size:12px; color: var(--palette-950);">Teléfono de Contacto</label>
+            <input type="text" th:field="*{telefono}" class="form-input" style="height: 44px; padding: 10px 14px; border: 1.5px solid var(--palette-200); border-radius: 8px;" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}" style="font-size: 11px; color: var(--alert); margin-top: 4px;"></div>
+        </div>
+    </div>
+
+    <button type="submit" class="modal-btn-blue" style="width: 100%; height: 44px; border: none; border-radius: 6px; background-color: #0061ff; color: white; font-weight: 700; cursor: pointer; transition: background-color 0.2s;">
+        Actualizar
+    </button>
+</form>

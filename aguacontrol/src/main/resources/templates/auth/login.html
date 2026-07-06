@@ -5,6 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>A147</title>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/auth/login.css}">
+    </th:block>
 </head>
 <body>
 
@@ -30,7 +33,7 @@
             <div class="form-field">
                 <i class="bi bi-lock"></i>
                 <input id="password" type="password" name="password" placeholder="Contraseña" required>
-                <i id="eye-icon" class="bi bi-eye" style="cursor: pointer;"></i>
+                <i id="eye-icon" class="bi bi-eye"></i>
             </div>
 
             <button type="submit">Iniciar Sesión</button>
@@ -41,16 +44,7 @@
 </div>
 
 <th:block layout:fragment="scripts">
-    <script>
-        const $showPassword = document.getElementById("eye-icon");
-        const $password = document.getElementById("password");
-
-        $showPassword.addEventListener("click", () => {
-            const show = $password.type === "password";
-            $password.type = show ? "text" : "password";
-            $showPassword.className = show ? "bi bi-eye-slash" : "bi bi-eye";
-        });
-    </script>
+    <script th:src="@{/js/auth/login.js}"></script>
 </th:block>
 
 </body>

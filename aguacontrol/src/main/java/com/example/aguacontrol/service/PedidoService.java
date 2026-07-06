@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface PedidoService extends CrudService<Pedido, Long> {
     //PEDIDO VIEW DTO
     @Transactional(readOnly = true)
-    List<PedidoViewDTO> browsePedidos();
+    List<PedidoViewDTO> browsePedidos(String keyword);
 
     //PEDIDO DTO
     ValidationErrors validatePedido(PedidoDTO dto);

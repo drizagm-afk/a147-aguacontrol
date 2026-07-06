@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,8 +81,14 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public List<PedidoViewDTO> browsePedidos() {
-        return repo.browsePedidos().stream().map(this::mapToPedidoView).toList();
+    public List<PedidoViewDTO> browsePedidos(String keyword) {
+        List<Pedido> pedidos;
+        if (keyword == null || keyword.trim().isEmpty())
+            pedidos = repo.browsePedidos(null);
+        else
+            pedidos = repo.browsePedidos("%" + keyword + "%");
+
+        return pedidos.stream().map(this::mapToPedidoView).toList();
     }
 
     //PEDIDO DTO
@@ -103,16 +110,17 @@ public class PedidoServiceImpl implements PedidoService {
                 continue;
             }
 
-            if (product.getCantidad() > productoRepo.findStock(id)) {
+            var stock = productoRepo.findStock(id);
+            if (product.getCantidad() > stock) {
                 errors.add(
                         "productos[" + i + "].cantidad",
-                        "No hay suficiente Stock (" + product.getCantidad() + ")"
+                        "No hay suficiente Stock (" + stock + ")"
                 );
             }
         }
 
         //PAGO
-        if (metodoPagoRepo.existsById(dto.getMetodoPagoId()))
+        if (!metodoPagoRepo.existsById(dto.getMetodoPagoId()))
             errors.add("metodoPagoId", "El Metodo de Pago no existe");
 
         return errors;
@@ -148,6 +156,7 @@ public class PedidoServiceImpl implements PedidoService {
     public Pedido createPedido(PedidoDTO dto) {
         var pedido = new Pedido();
         pedido.setEstado(estadoRepo.Programado());
+        pedido.setFechaSolicitud(LocalDate.now());
 
         //PERSONA
         var persona = personaRepo.findByNombre(dto.getCliente()).orElseThrow();

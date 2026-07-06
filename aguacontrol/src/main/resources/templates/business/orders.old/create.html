@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{business/base}">
+<head>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="orders-container">
+
+        <!-- Encabezado -->
+        <div class="orders-header-block">
+            <h2>Pedidos</h2>
+            <p>Gestión y Registro de Pedidos.</p>
+        </div>
+
+        <!-- Botón tipo pestaña superior -->
+        <div class="orders-tab-row">
+            <a th:href="@{/business/orders/manage}" class="btn-tab-header">
+                <i class="bi bi-truck"></i>
+                <span>GESTIÓN DE PEDIDOS</span>
+            </a>
+        </div>
+
+        <!-- Tarjeta del Formulario Principal -->
+        <div class="order-form-card">
+
+            <form id="form" th:action="@{/business/orders/create}" th:object="${form}" method="post">
+                <!-- Errores globales -->
+                <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger mb-4">
+                    <ul class="mb-0">
+                        <li th:each="err : ${#fields.detailedErrors()}"
+                            th:text="|${err.fieldName}: ${err.message}|"></li>
+                    </ul>
+                </div>
+
+                <!-- SECCIÓN 1: SELECCIONA AL CLIENTE -->
+                <span class="order-section-title">Selecciona al Cliente</span>
+                <div class="form-grid-row" style="margin-bottom: 16px;">
+                    <div class="form-group full-width">
+                        <div class="input-icon-wrapper">
+                            <i class="bi bi-search left-icon"></i>
+                            <input type="text" id="client-search-input" th:field="*{cliente}" class="form-input"
+                                   placeholder="Buscar Cliente" autocomplete="off">
+                        </div>
+                        <div class="text-danger" th:errors="*{cliente}"></div>
+                        <!-- Dropdown de Autocompletado -->
+                        <div class="autocomplete-dropdown hidden" id="client-autocomplete-list"></div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 2: DATOS DE CONTACTO (Rellenados al seleccionar) -->
+                <div class="form-grid-row">
+                    <!-- Telefono -->
+                    <div class="form-group" id="phone-group-container">
+                        <label class="form-label">Teléfono de Entrega</label>
+                        <div class="input-icon-wrapper" id="phone-input-wrapper">
+                            <i class="bi bi-telephone left-icon"></i>
+                            <input type="text" id="delivery-phone-text" th:field="*{telefono}" class="form-input"
+                                   placeholder="Teléfono del Cliente" readonly>
+                        </div>
+                        <div class="text-danger" th:errors="*{telefono}"></div>
+                    </div>
+
+                    <!-- Direccion -->
+                    <div class="form-group">
+                        <label class="form-label">Dirección de Entrega</label>
+                        <div class="input-icon-wrapper">
+                            <i class="bi bi-geo-alt left-icon"></i>
+                            <input type="text" id="delivery-address-input" th:field="*{direccion}" class="form-input"
+                                   placeholder="Dirección del Cliente" readonly>
+                        </div>
+                        <div class="text-danger" th:errors="*{direccion}"></div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 3: LISTA DE PRODUCTOS -->
+                <div class="product-list-section">
+                    <span class="order-section-title">Lista de Productos</span>
+
+                    <!-- Cabeceras de columna -->
+                    <div class="product-row-headers">
+                        <span class="product-header-label">Producto</span>
+                        <span class="product-header-label">Cantidad</span>
+                        <span class="product-header-label">Subtotal</span>
+                    </div>
+
+                    <!-- Contenedor de filas dinámicas -->
+                    <div class="product-rows-stack" id="product-rows-container">
+                        <!-- Se poblará con filas de producto por JS -->
+                    </div>
+
+                    <!-- Botón de agregar producto -->
+                    <button type="button" class="btn-add-product-row" id="btn-add-product">
+                        <i class="bi bi-plus-lg"></i>
+                        <span>Agregar Producto</span>
+                    </button>
+
+                    <!-- Inputs ocultos sincronizados de productos -->
+                    <div id="product-hidden-fields"></div>
+                </div>
+
+                <!-- SECCIÓN 4: PAGO Y TOTAL -->
+                <div class="payment-section">
+                    <div class="payment-layout-row">
+                        <!-- METODO DE PAGO -->
+                        <div class="form-group" style="gap: 10px;">
+                            <label class="form-label">Método de Pago</label>
+                            <input type="hidden" id="metodoPagoId" th:field="*{metodoPagoId}">
+
+                            <div class="toggle-group" id="payment-toggle-group">
+                                <div class="toggle-slider"></div>
+                                <button type="button" class="toggle-btn active" id="btn-pay-efectivo">
+                                    <i class="bi bi-cash-coin"></i>
+                                    <span>Efectivo</span>
+                                </button>
+                                <button type="button" class="toggle-btn" id="btn-pay-transferencia">
+                                    <i class="bi bi-phone"></i>
+                                    <span>Transferencia</span>
+                                </button>
+                            </div>
+                            <div class="text-danger" th:errors="*{metodoPagoId}"></div>
+                        </div>
+
+                        <!-- Caja totalizadora -->
+                        <div class="total-display-card">
+                            <span class="total-display-label">Monto Total a Pagar</span>
+                            <span class="total-display-amount" id="total-amount-display">S/0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón submit inferior -->
+                <div style="text-align: left; margin-top: 12px;">
+                    <button type="submit" class="btn-submit-order" id="btn-submit-order">
+                        Registrar Pedido
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script type="module" th:src="@{/js/business/orders/create.js}"></script>
+</th:block>
+
+</body>
+</html>

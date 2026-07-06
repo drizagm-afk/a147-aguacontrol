@@ -6,6 +6,7 @@ import com.example.aguacontrol.dto.business.orders.PedidoDTO;
 import com.example.aguacontrol.dto.business.orders.PedidoUpdateDTO;
 import com.example.aguacontrol.service.PedidoService;
 import com.example.aguacontrol.service.PersonaService;
+import com.example.aguacontrol.service.ProductoService;
 import com.example.aguacontrol.utils.FormMode;
 import com.example.aguacontrol.utils.toast.Toaster;
 import com.example.aguacontrol.validator.EmpresaDTOValidator;
@@ -27,6 +28,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class OrdersController {
     private final PedidoService serv;
+    private final ProductoService productoServ;
 
     //PERSIST: CREATE
     @GetMapping
@@ -50,7 +52,7 @@ public class OrdersController {
         serv.createPedido(form);
 
         new Toaster()
-                .success("Pedido Registrado Existosamente")
+                .success("Pedido Registrado", "Pedido Registrado Exitosamente")
                 .cook(reModel);
 
         return "redirect:/business/orders";
@@ -96,12 +98,18 @@ public class OrdersController {
 
     @GetMapping("/browse")
     @ResponseBody
-    public ApiResponse browse() {
-        return ApiResponse.ok("Datos: ", serv.browsePedidos());
+    public ApiResponse browse(@RequestParam("keyword") String keyword) {
+        return ApiResponse.ok("Datos: ", serv.browsePedidos(keyword));
+    }
+
+    @GetMapping("/products/browse")
+    @ResponseBody
+    public ApiResponse browseProducts() {
+        return ApiResponse.ok("Productos: ", productoServ.readAll());
     }
 
     //PERSIST: UPDATE
-    private final String updateForm = "business/clients/update :: form";
+    private final String updateForm = "business/orders/update :: form";
 
     @GetMapping("/form/update/{id}")
     public String formUpdate(@PathVariable Long id, Model model) {

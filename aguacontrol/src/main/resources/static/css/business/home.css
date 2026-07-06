@@ -1,0 +1,29 @@
+@import "/css/business/business.css";
+
+.business-home-container {
+    width: 100%;
+    max-width: 960px;
+    min-height: calc(100vh - var(--topbar-height));
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.business-home-container h1,
+.home-welcome-title {
+    margin: 0;
+    color: var(--black);
+    font-size: 2.25rem;
+    font-weight: 400;
+}
+
+.home-welcome-label {
+    font-weight: 400;
+}
+
+.home-welcome-name {
+    font-weight: 800;
+}

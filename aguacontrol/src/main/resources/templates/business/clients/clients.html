@@ -3,26 +3,58 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{business/base}">
 <head>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/business/clients/clients.css}">
+    </th:block>
 </head>
 <body>
 
 <div layout:fragment="content">
-    <input id="browse" type="text" placeholder="Search" autofocus/>
-    <a th:href="@{/business/clients/form/create?isEmpresa={isEmp}(isEmp=false)}">Nuevo Cliente</a>
-    <a th:href="@{/business/clients/form/create?isEmpresa={isEmp}(isEmp=true)}">Nueva Empresa</a>
+    <section class="clients-container">
+        <div class="clients-header-block">
+            <h2>Clientes</h2>
+            <p>Gestion y listado de clientes en el sistema.</p>
+        </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Codigo</th>
-            <th>Nombre</th>
-            <th>Telefono</th>
-            <th>Direccion</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody id="content"></tbody>
-    </table>
+        <div class="search-filter-row">
+            <div class="search-input-wrap">
+                <i class="bi bi-search"></i>
+                <input id="browse"
+                       class="search-field"
+                       type="text"
+                       placeholder="Buscar por nombre, codigo, telefono o direccion..."
+                       autofocus>
+            </div>
+        </div>
+
+        <div class="action-buttons-row">
+            <a class="btn-add-action"
+               th:href="@{/business/clients/form/create?isEmpresa={isEmp}(isEmp=false)}">
+                <i class="bi bi-plus-lg"></i>
+                <span>Agregar un Nuevo Cliente</span>
+            </a>
+            <a class="btn-add-action"
+               th:href="@{/business/clients/form/create?isEmpresa={isEmp}(isEmp=true)}">
+                <i class="bi bi-building"></i>
+                <span>Agregar una Nueva Empresa</span>
+            </a>
+        </div>
+
+        <div class="table-card">
+            <table class="clients-table">
+                <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Telefono Principal</th>
+                    <th>Direccion Principal</th>
+                    <th class="actions-cell">Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="content"></tbody>
+            </table>
+        </div>
+    </section>
 </div>
 
 <th:block id="NEVERMOREE" layout:fragment="scripts">

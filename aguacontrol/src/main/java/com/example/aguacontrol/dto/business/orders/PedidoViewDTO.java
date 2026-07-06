@@ -18,6 +18,6 @@ public class PedidoViewDTO {
     private BigDecimal total;
     private String estado;
 
-    private boolean canEdit;
+    private boolean canUpdate;
     private boolean canCancel;
 }

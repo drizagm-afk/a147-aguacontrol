@@ -8,17 +8,26 @@ let direcciones = [];
 const $telefonoInit = document.getElementById("telefonoInit");
 const $direccionInit = document.getElementById("direccionInit");
 
+function text(value) {
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
 function init() {
     $telefonoInit.querySelectorAll("*").forEach(elem => {
         telefonos.push({
-            numero: elem.dataset.value,
-            error: elem.dataset.error
+            numero: elem.dataset.value ?? "",
+            error: elem.dataset.error || null
         });
     });
     $direccionInit.querySelectorAll("*").forEach(elem => {
         direcciones.push({
-            referencia: elem.dataset.value,
-            error: elem.dataset.error
+            referencia: elem.dataset.value ?? "",
+            error: elem.dataset.error || null
         });
     });
 
@@ -28,6 +37,8 @@ function init() {
 
 //>>>> RENDER
 const $form = document.getElementById("form");
+const $telefonoModal = document.getElementById("telefonoModal");
+const $direccionModal = document.getElementById("direccionModal");
 
 //TELEFONOS RENDER
 const $telefonoView = document.getElementById("telefonoView");
@@ -37,10 +48,10 @@ function renderTelefonoView() {
 }
 
 document.getElementById("telefonoOpen").addEventListener("click", () => {
-
+    $telefonoModal.classList.add("open");
 });
 document.getElementById("telefonoClose").addEventListener("click", () => {
-
+    $telefonoModal.classList.remove("open");
 });
 
 const $telefonos = document.getElementById("telefonos");
@@ -52,11 +63,13 @@ function renderTelefonos() {
         $telefonos.innerHTML += `
             <tr>
                 <td>
-                    <input data-id="${i}" placeholder="Numero" value="${t.numero}"
+                    <div class="modal-input-row">
+                    <input class="modal-field" data-id="${i}" placeholder="Telefono" value="${text(t.numero)}"
                         ${Ctrl.ifView("readonly")}>
-                    <div>${t.error ?? ""}</div>
+                    </div>
+                    <div class="modal-field-error">${text(t.error)}</div>
                 </td>
-                <td>${Ctrl.ifNotView(`<button class="telefonoDel" data-id="${i}">Eliminar</button>`)}</td>
+                <td>${Ctrl.ifNotView(`<button type="button" class="telefonoDel btn-delete-row" data-id="${i}">Eliminar</button>`)}</td>
             </tr>
         `;
     })
@@ -100,7 +113,7 @@ function syncTelefonoFields() {
     $telefonoFields.innerHTML = "";
     telefonos.forEach((t, i) => {
         $telefonoFields.innerHTML += `
-            <input type="hidden" name="telefonos[${i}].numero" value="${t.numero}">
+            <input type="hidden" name="telefonos[${i}].numero" value="${text(t.numero)}">
         `;
     });
 }
@@ -113,10 +126,10 @@ function renderDireccionView() {
 }
 
 document.getElementById("direccionOpen").addEventListener("click", () => {
-
+    $direccionModal.classList.add("open");
 });
 document.getElementById("direccionClose").addEventListener("click", () => {
-
+    $direccionModal.classList.remove("open");
 });
 
 const $direcciones = document.getElementById("direcciones");
@@ -128,11 +141,13 @@ function renderDirecciones() {
         $direcciones.innerHTML += `
             <tr>
                 <td>
-                    <input data-id="${i}" placeholder="Numero" value="${d.referencia}"
+                    <div class="modal-input-row">
+                    <input class="modal-field" data-id="${i}" placeholder="Direccion" value="${text(d.referencia)}"
                         ${Ctrl.ifView("readonly")}>
-                    <div>${d.error ?? ""}</div>
+                    </div>
+                    <div class="modal-field-error">${text(d.error)}</div>
                 </td>
-                <td>${Ctrl.ifNotView(`<button class="direccionDel" data-id="${i}">Eliminar</button>`)}</td>
+                <td>${Ctrl.ifNotView(`<button type="button" class="direccionDel btn-delete-row" data-id="${i}">Eliminar</button>`)}</td>
             </tr>
         `;
     })
@@ -176,7 +191,7 @@ function syncDireccionFields() {
     $direccionFields.innerHTML = "";
     direcciones.forEach((d, i) => {
         $direccionFields.innerHTML += `
-            <input type="hidden" name="direcciones[${i}].referencia" value="${d.referencia}">
+            <input type="hidden" name="direcciones[${i}].referencia" value="${text(d.referencia)}">
         `;
     });
 }
@@ -192,4 +207,14 @@ document.addEventListener("DOMContentLoaded", () => {
         syncTelefonoFields();
         syncDireccionFields();
     })
+});
+
+$telefonoModal.addEventListener("click", e => {
+    if (e.target === $telefonoModal)
+        $telefonoModal.classList.remove("open");
+});
+
+$direccionModal.addEventListener("click", e => {
+    if (e.target === $direccionModal)
+        $direccionModal.classList.remove("open");
 });

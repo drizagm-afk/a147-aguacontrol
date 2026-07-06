@@ -3,91 +3,144 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{business/base}">
 <head>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/business/clients/form.css}">
+    </th:block>
 </head>
 <body>
 
-<div layout:fragment="content">
-    <a th:href="@{/business/clients}">BACK</a>
-    <div>
+<div layout:fragment="content" class="form-container">
+    <div class="form-header-row">
+        <a th:href="@{/business/clients}" class="btn-back" title="Volver">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <div class="form-header-info">
+            <h2 th:text="${isReadOnly} ? 'Detalle del cliente' : (${mode=='CREATE'} ? 'Registrar cliente' : 'Actualizar cliente')">
+                Formulario de cliente
+            </h2>
+            <p>Gestiona la informacion principal, telefonos y direcciones del cliente.</p>
+        </div>
+    </div>
+
+    <div class="form-card-body">
         <form id="form"
               th:action="${mode=='CREATE'} ? @{/business/clients/create} : @{/business/clients/update}"
               th:object="${form}" method="post">
             <input type="hidden" th:field="*{id}">
 
-            <label>Nombre</label>
-            <input type="text" th:field="*{nombre}" placeholder="Nombre" th:readonly="${isReadOnly}">
-            <div th:errors="*{nombre}"></div>
-
-            <div>
-                <label>Telefono</label>
-                <input id="telefonoView" type="text" readonly>
-                <button type="button" id="telefonoOpen">+</button>
-                <div id="telefonoFields"></div>
-                <div id="telefonoInit">
-                    <div th:each="t, iter : *{telefonos}"
-                         th:with="fld=|telefonos[${iter.index}].numero|"
-                         th:data-value="${t.numero}"
-                         th:data-error="${#fields.hasErrors(fld) ? #strings.listJoin(#fields.errors(fld), ' | ') : ''}"></div>
+            <div class="form-grid-row">
+                <div class="form-group">
+                    <label class="form-label">Cliente (*)</label>
+                    <div class="input-icon-wrapper">
+                        <i class="bi bi-person left-icon"></i>
+                        <input class="form-input" type="text" th:field="*{nombre}" placeholder="Nombre" th:readonly="${isReadOnly}">
+                    </div>
+                    <div class="field-error" th:errors="*{nombre}"></div>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label">Telefono</label>
+                    <div class="input-icon-wrapper">
+                        <i class="bi bi-telephone left-icon"></i>
+                        <input class="form-input" id="telefonoView" type="text" readonly
+                               placeholder="Gestiona los telefonos del cliente">
+                        <button type="button" id="telefonoOpen" class="btn-input-plus" title="Gestionar telefonos">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                    <div id="telefonoFields"></div>
+                    <div id="telefonoInit">
+                        <div th:each="t, iter : *{telefonos}"
+                             th:with="fld=|telefonos[${iter.index}].numero|"
+                             th:data-value="${t.numero}"
+                             th:data-error="${#fields.hasErrors(fld) ? #strings.listJoin(#fields.errors(fld), ' | ') : ''}"></div>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label">Direccion</label>
+                    <div class="input-icon-wrapper">
+                        <i class="bi bi-geo-alt left-icon"></i>
+                        <input class="form-input" id="direccionView" type="text" readonly
+                               placeholder="Gestiona las direcciones del cliente">
+                        <button type="button" id="direccionOpen" class="btn-input-plus" title="Gestionar direcciones">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                    <div id="direccionFields"></div>
+                    <div id="direccionInit">
+                        <div th:each="d, iter : *{direcciones}"
+                             th:with="fld=|direcciones[${iter.index}].referencia|"
+                             th:data-value="${d.referencia}"
+                             th:data-error="${#fields.hasErrors(fld) ? #strings.listJoin(#fields.errors(fld), ' | ') : ''}"></div>
+                    </div>
+                </div>
+
+                <input type="hidden" th:field="*{empresa}">
+
+                <section class="form-group half-width" th:if="*{empresa}">
+                    <label class="form-label">RUC</label>
+                    <div class="input-icon-wrapper">
+                        <i class="bi bi-building left-icon"></i>
+                        <input class="form-input" type="text" th:field="*{empresaDTO.ruc}" placeholder="RUC" th:readonly="${isReadOnly}">
+                    </div>
+                    <div class="field-error" th:errors="*{empresaDTO.ruc}"></div>
+                </section>
             </div>
 
-            <div>
-                <label>Direccion</label>
-                <input id="direccionView" type="text" readonly>
-                <button type="button" id="direccionOpen">+</button>
-                <div id="direccionFields"></div>
-                <div id="direccionInit">
-                    <div th:each="d, iter : *{direcciones}"
-                         th:with="fld=|direcciones[${iter.index}].referencia|"
-                         th:data-value="${d.referencia}"
-                         th:data-error="${#fields.hasErrors(fld) ? #strings.listJoin(#fields.errors(fld), ' | ') : ''}"></div>
-                </div>
+            <div class="form-actions-row">
+                <button class="btn-submit-form" th:unless="${isReadOnly}" type="submit"
+                        th:text="${mode=='CREATE' ? 'Registrar' : 'Actualizar'}">SUBMIT</button>
             </div>
-
-            <input type="hidden" th:field="*{empresa}">
-
-            <section th:if="*{empresa}">
-                <label>RUC</label>
-                <input type="text" th:field="*{empresaDTO.ruc}" placeholder="RUC" th:readonly="${isReadOnly}">
-                <div th:errors="*{empresaDTO.ruc}"></div>
-            </section>
-
-            <button th:unless="${isReadOnly}" type="submit"
-                    th:text="${mode=='CREATE' ? 'Registrar' : 'Actualizar'}">SUBMIT</button>
         </form>
     </div>
 </div>
 
 <div layout:fragment="modal">
-    <div>
-        <button id="telefonoClose">X</button>
-        <h4>Telefonos de Entrega</h4>
-        <table>
-            <thead>
-            <tr>
-                <th>Número</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody id="telefonos">
-            <tr></tr>
-            </tbody>
-        </table>
-        <button th:unless="${isReadOnly}" id="telefonoAdd">Agregar Telefono</button>
+    <div id="telefonoModal" class="modal-overlay">
+        <div class="modal-box">
+            <button type="button" id="telefonoClose" class="btn-close-modal" title="Cerrar">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <h4 class="modal-title">Telefonos de Entrega</h4>
+            <div class="modal-table-wrap">
+                <table class="modal-table">
+                    <thead>
+                    <tr>
+                        <th>Numero</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="telefonos"></tbody>
+                </table>
+            </div>
+            <button type="button" class="btn-add-more" th:unless="${isReadOnly}" id="telefonoAdd">
+                Agregar Telefono
+            </button>
+        </div>
     </div>
-    <div>
-        <button id="direccionClose">X</button>
-        <h4>Direcciones de Entrega</h4>
-        <table>
-            <thead>
-            <tr>
-                <th>Referencia</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody id="direcciones"></tbody>
-        </table>
-        <button th:unless="${isReadOnly}" id="direccionAdd">Agregar Direccion</button>
+
+    <div id="direccionModal" class="modal-overlay">
+        <div class="modal-box">
+            <button type="button" id="direccionClose" class="btn-close-modal" title="Cerrar">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <h4 class="modal-title">Direcciones de Entrega</h4>
+            <div class="modal-table-wrap">
+                <table class="modal-table">
+                    <thead>
+                    <tr>
+                        <th>Referencia</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="direcciones"></tbody>
+                </table>
+            </div>
+            <button type="button" class="btn-add-more" th:unless="${isReadOnly}" id="direccionAdd">
+                Agregar Direccion
+            </button>
+        </div>
     </div>
 </div>
 

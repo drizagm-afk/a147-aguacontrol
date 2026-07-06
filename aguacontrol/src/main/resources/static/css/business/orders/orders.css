@@ -1,0 +1,9 @@
+@import "/css/business/business.css";
+
+.orders-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+

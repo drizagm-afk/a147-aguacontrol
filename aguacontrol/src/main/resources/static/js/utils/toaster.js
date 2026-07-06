@@ -14,7 +14,7 @@ if (!$toasts) {
 //RENDER
 function show(type, title, message) {
     const $toast = cook(
-        title, message, {
+        type, title, message, {
             success: "text-bg-success",
             error: "text-bg-danger",
             warning: "text-bg-warning",
@@ -33,18 +33,29 @@ function show(type, title, message) {
 
     $toast.addEventListener("hidden.bs.toast", () => $toast.remove());
 }
-function cook(title, message, bootstrapClass) {
+function cook(type, title, message, bootstrapClass) {
     const $toast = document.createElement("div");
     $toast.className = `toast align-items-center border-0 ${bootstrapClass}`;
     $toast.setAttribute("role", "alert");
     $toast.setAttribute("aria-live", "assertive");
     $toast.setAttribute("aria-atomic", "true");
+    const icons = {
+        success: "bi bi-bell-fill",
+        error: "bi bi-x-circle-fill",
+        warning: "bi bi-exclamation-triangle-fill",
+        info: "bi bi-info-circle-fill"
+    };
     $toast.innerHTML = `
-        <div class="d-flex">
+        <div class="d-flex align-items-start gap-3">
+            <i class="${icons[type]}"></i>
             <div class="toast-body">
-                <strong>${Html.text(title)}</strong>
+                <strong class="d-block">${Html.text(title)}</strong>
                 <span>${Html.text(message)}</span>
             </div>
+            <button type="button"
+                    class="btn-close btn-close-white ms-auto"
+                    data-bs-dismiss="toast"
+                    aria-label="Cerrar"></button>
         </div>
     `;
 

@@ -61,7 +61,7 @@ public class ClientsController {
         serv.saveCliente(form);
 
         new Toaster()
-                .success(String.format("%s \"%s\" Registrado Existosamente",
+                .success("Cliente Registrado", String.format("%s \"%s\" Registrado Exitosamente",
                         form.isEmpresa() ? "Empresa" : "Cliente", form.getNombre()))
                 .cook(reModel);
 
@@ -90,7 +90,7 @@ public class ClientsController {
         serv.saveCliente(form);
 
         new Toaster()
-                .success(String.format("%s \"%s\" Actualizado Existosamente",
+                .success("Cliente Actualizado", String.format("%s \"%s\" Actualizado Exitosamente",
                         form.isEmpresa() ? "Empresa" : "Cliente", form.getNombre()))
                 .cook(reModel);
 

@@ -5,6 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>A147</title>
+    <th:block layout:fragment="styles">
+        <link rel="stylesheet" th:href="@{/css/auth/signup.css}">
+    </th:block>
 </head>
 <body>
 
@@ -16,7 +19,9 @@
         <h2 id="form-title">Crear Cuenta</h2>
         <p id="form-subtitle">Ingrese sus datos personales para registrarse en el sistema</p>
 
-        <div th:if="${anyErrors}" class="form-errors" th:errors="*{nombre}"></div>
+        <div th:if="${anyErrors}" class="form-errors">
+            Verifique sus datos, dado que hay valores incorrectos
+        </div>
         <div id="form-content">
             <!--NOMBRE-->
             <div th:with="hasErrors = ${#fields.hasErrors('nombre')}">
@@ -45,6 +50,9 @@
                 <div class="form-field" th:classappend="${hasErrors} ? 'error'">
                     <i class="bi bi-lock"></i>
                     <input type="password" th:field="*{password}" placeholder="Contraseña">
+                    <button class="eye-btn" id="signup-eye-toggle" type="button" aria-label="Mostrar contraseña">
+                        <i class="bi bi-eye" id="signup-eye-icon"></i>
+                    </button>
                 </div>
                 <div th:if="${hasErrors}" class="field-errors" th:errors="*{password}">
                     <i class="bi bi-exclamation-circle"></i>
@@ -80,22 +88,7 @@
 </div>
 
 <th:block layout:fragment="scripts">
-    <script>
-        const $chkEmpresa = document.getElementById("chk-empresa");
-        const $formEmpresa = document.getElementById("form-empresa");
-
-        function showEmpresa() {
-            if ($chkEmpresa.checked) {
-                $formEmpresa.classList.remove("hide");
-            } else {
-                $formEmpresa.classList.add("hide");
-            }
-        }
-
-        $chkEmpresa.addEventListener("change", showEmpresa);
-
-        document.addEventListener("DOMContentLoaded", showEmpresa);
-    </script>
+    <script th:src="@{/js/auth/signup.js}"></script>
 </th:block>
 
 </body>

@@ -1,4 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{surface/base}">
+<body>
+<div layout:fragment="content">
+    <section class="surface-home-container">
+        <h1 class="welcome-message">
+            <span>Bienvenido</span>
+            <strong th:text="${username}"></strong>
+        </h1>
+    </section>
+</div>
+</body>
 </html>

@@ -29,25 +29,16 @@ public interface PersonaRepository extends CrudRepository<Persona, Long> {
             SELECT p.id AS personaId, lt.id AS telefonoId
             FROM Persona p JOIN p.telefonos lt
             WHERE p.id IN :ids
-            AND (lt.id = (
-                SELECT lp.telefono.id
-                FROM Pedido lp
-                WHERE lp.persona.id = p.id
-                AND lp.fechaSolicitud = (
-                    SELECT MAX(pe.fechaSolicitud)
-                    FROM Pedido pe JOIN pe.persona pep JOIN pep.telefonos t
-                    WHERE pe.telefono.id = t.id AND pep.id = p.id
-                )
-            ) OR (
-                0 = (
-                    SELECT COUNT(*)
-                    FROM Pedido pe JOIN pe.persona pep JOIN pep.telefonos t
-                    WHERE pe.telefono.id = t.id AND pep.id = p.id
-                ) AND lt.id = (
-                    SELECT MAX(t.id)
-                    FROM Persona pep JOIN pep.telefonos t
-                    WHERE pep.id = p.id
-                )
+            AND lt.id = COALESCE((
+                SELECT lpe.telefono.id
+                FROM Pedido lpe
+                WHERE lpe.id = (
+                    SELECT MAX(pe.id)
+                    FROM Pedido pe
+                    WHERE pe.persona = p AND pe.telefono MEMBER OF p.telefonos
+                )),(
+                SELECT MAX(t.id)
+                FROM p.telefonos t
             ))
             """)
     List<PersonaTelefonoProy> findLastUsedTelefonoRaw(List<Long> ids);
@@ -79,25 +70,16 @@ public interface PersonaRepository extends CrudRepository<Persona, Long> {
             SELECT p.id AS personaId, ld.id AS direccionId
             FROM Persona p JOIN p.direcciones ld
             WHERE p.id IN :ids
-            AND (ld.id = (
-                SELECT lp.direccion.id
-                FROM Pedido lp
-                WHERE lp.persona.id = p.id
-                AND lp.fechaSolicitud = (
-                    SELECT MAX(pe.fechaSolicitud)
-                    FROM Pedido pe JOIN pe.persona pep JOIN pep.direcciones d
-                    WHERE pe.direccion.id = d.id AND pep.id = p.id
-                )
-            ) OR (
-                0 = (
-                    SELECT COUNT(*)
-                    FROM Pedido pe JOIN pe.persona pep JOIN pep.direcciones d
-                    WHERE pe.direccion.id = d.id AND pep.id = p.id
-                ) AND ld.id = (
-                    SELECT MAX(d.id)
-                    FROM Persona pep JOIN pep.direcciones d
-                    WHERE pep.id = p.id
-                )
+            AND ld.id = COALESCE((
+                SELECT lpe.direccion.id
+                FROM Pedido lpe
+                WHERE lpe.id = (
+                    SELECT MAX(pe.id)
+                    FROM Pedido pe
+                    WHERE pe.persona = p AND pe.direccion MEMBER OF p.direcciones
+                )),(
+                SELECT MAX(d.id)
+                FROM p.direcciones d
             ))
             """)
     List<PersonaDireccionProy> findLastUsedDireccionRaw(List<Long> ids);
